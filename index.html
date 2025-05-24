@@ -1,0 +1,1922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Exam Study Site</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+    <style>
+        /* Inspired by macro recorder.html and Tailwind for document look */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            background-color: #fff;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .dark-mode {
+            background-color: #1a202c; /* Dark gray */
+            color: #e2e8f0; /* Light gray */
+        }
+
+        .container {
+            max-width: 900px; /* Document-like width */
+            margin: 0 auto;
+            padding: 20px 40px; /* Adjusted padding */
+        }
+
+        .header {
+            background-color: #f8f9fa; /* Light grey for header */
+            padding: 10px 0;
+            border-bottom: 1px solid #e7e7e7;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s, border-bottom-color 0.3s;
+        }
+
+        .dark-mode .header {
+            background-color: #2d3748; /* Darker grey for header in dark mode */
+            border-bottom-color: #4a5568;
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header nav a {
+            margin-right: 15px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .dark-mode .header nav a {
+            color: #63b3ed;
+        }
+
+        .header nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Dark Mode Switch Styles */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px; /* Adjusted width */
+            height: 28px; /* Adjusted height */
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 28px; /* Adjusted for height */
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px; /* Adjusted size */
+            width: 20px;  /* Adjusted size */
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #007bff;
+        }
+        .dark-mode input:checked + .slider {
+            background-color: #63b3ed;
+        }
+        input:focus + .slider {
+            box-shadow: 0 0 1px #007bff;
+        }
+        .dark-mode input:focus + .slider {
+            box-shadow: 0 0 1px #63b3ed;
+        }
+        input:checked + .slider:before {
+            transform: translateX(22px); /* Adjusted translation */
+        }
+
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+            margin-top: 35px;
+        }
+        .dark-mode h1, .dark-mode h2, .dark-mode h3, .dark-mode h4 {
+            color: #a0aec0;
+            border-bottom-color: #4a5568;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1a2b3c;
+            border-bottom: 2px solid #555;
+            padding-bottom: 12px;
+            margin-bottom: 30px;
+        }
+        .dark-mode h1 {
+            color: #cbd5e0;
+            border-bottom-color: #718096;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 1px solid #ddd;
+        }
+        .dark-mode h2 {
+            color: #a0aec0;
+            border-bottom-color: #4a5568;
+        }
+         h4 {
+            color: #4a627a;
+            margin-bottom: 10px;
+        }
+        .dark-mode h4 {
+            color: #718096;
+        }
+
+        ul {
+            list-style-type: disc;
+            padding-left: 25px;
+            margin-bottom: 15px;
+        }
+        ul ul {
+            list-style-type: circle;
+            padding-left: 35px;
+        }
+
+        b, strong { /* For bold text */
+            color: #222;
+            font-weight: 600;
+        }
+        .dark-mode b, .dark-mode strong {
+            color: #e2e8f0;
+        }
+
+        .formula {
+            font-family: 'Georgia', serif;
+            font-size: 1.1em;
+            background-color: #f8f8f8;
+            padding: 12px 18px;
+            border-left: 4px solid #a7d9ff;
+            margin: 20px 0;
+            overflow-x: auto;
+            border-radius: 4px;
+        }
+        .dark-mode .formula {
+            background-color: #2d3748;
+            border-left-color: #63b3ed;
+            color: #e2e8f0;
+        }
+
+        .definition {
+            font-style: italic;
+            color: #555; /* Slightly darker italic text */
+        }
+        .dark-mode .definition {
+            color: #a0aec0;
+        }
+
+        .unit-notes {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .dark-mode .unit-notes {
+            border-color: #4a5568;
+            background-color: #2d3748;
+        }
+        .unit-notes > div:not(.test-options) { /* Target direct div children for notes content */
+             margin-bottom: 20px;
+        }
+
+
+        .test-section {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #555;
+        }
+        .dark-mode .test-section {
+            border-top-color: #718096;
+        }
+
+        .test-options button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .dark-mode .test-options button {
+            background-color: #38a169;
+        }
+        .test-options button:hover {
+            opacity: 0.9;
+        }
+
+        /* Test Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; /* Adjusted margin for better viewing */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 750px; /* Slightly wider */
+            border-radius: 8px;
+            position: relative;
+            max-height: 90vh; /* Max height for scroll */
+            display: flex;
+            flex-direction: column;
+        }
+        .dark-mode .modal-content {
+            background-color: #2d3748;
+            border-color: #4a5568;
+            color: #e2e8f0;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .dark-mode .modal-header {
+            border-bottom-color: #4a5568;
+        }
+        .modal-body {
+            overflow-y: auto; /* Scroll for questions */
+            flex-grow: 1;
+        }
+        .modal-footer {
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            margin-top: 15px;
+            text-align: right;
+        }
+        .dark-mode .modal-footer {
+             border-top-color: #4a5568;
+        }
+
+        .close-button {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .dark-mode .close-button {
+            color: #cbd5e0;
+        }
+        .dark-mode .close-button:hover,
+        .dark-mode .close-button:focus {
+            color: #fff;
+        }
+
+        .question-container { margin-bottom: 20px; }
+        .question-container p { margin-bottom: 10px; }
+        .options label { display: block; margin-bottom: 8px; cursor: pointer; padding: 5px; border-radius: 4px;}
+        .options label:hover { background-color: #f0f0f0; }
+        .dark-mode .options label:hover { background-color: #4a5568; }
+        .options input[type="radio"] { margin-right: 8px; }
+        .theory-answer { width: 100%; padding: 8px; margin-top: 5px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box;}
+        .dark-mode .theory-answer { background-color: #4a5568; border-color: #718096; color: #e2e8f0;}
+
+        #submitTestButton {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .dark-mode #submitTestButton {
+            background-color: #63b3ed;
+            color: #1a202c;
+        }
+        #submitTestButton:hover { opacity: 0.9; }
+
+        .result { margin-top: 10px; padding: 10px; border-radius: 5px; }
+        .correct { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .dark-mode .correct { background-color: #2f5c3b; color: #c6f6d5; border-color: #38a169;}
+        .incorrect { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;}
+        .dark-mode .incorrect { background-color: #702b31; color: #fbd38d; border-color: #e53e3e;}
+        .explanation { font-size: 0.9em; color: #555; margin-top: 5px; }
+        .dark-mode .explanation { color: #a0aec0; }
+        .keywords { font-size: 0.9em; color: #007bff; margin-top: 5px; font-style: italic;}
+        .dark-mode .keywords { color: #63b3ed;}
+
+    </style>
+    <script>
+        window.MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']]
+          }
+        };
+    </script>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <nav>
+                <a href="#unit1">Unit 1</a>
+                <a href="#unit2">Unit 2</a>
+                <a href="#unit3">Unit 3</a>
+                <a href="#unit6">Unit 6</a>
+            </nav>
+            <label class="switch">
+                <input type="checkbox" id="darkModeToggleInput">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>IGCSE Physics Study Guide</h1>
+
+        <section id="unit1" class="unit-notes">
+            <h2>Unit 1: Motion, Forces, and Energy</h2>
+            <div id="unit1-content">
+                <h4>1.1 Physical quantities and measurement techniques</h4>
+                <ul>
+                    <li><b>Scalars & Vectors:</b>
+                        <ul>
+                            <li><span class="definition">Scalar:</span> Quantity with magnitude only (e.g., speed, mass, distance, energy, time, temperature).</li>
+                            <li><span class="definition">Vector:</span> Quantity with both magnitude and direction (e.g., velocity, force, displacement, acceleration, momentum, weight).</li>
+                        </ul>
+                    </li>
+                    <li><b>Vector Addition (for two perpendicular vectors):</b>
+                        <ul>
+                            <li>Magnitude (Resultant Force, $F$): Use Pythagoras' theorem:
+                                <div class="formula">$$F = \sqrt{F_x^2 + F_y^2}$$</div>
+                            </li>
+                            <li>Direction ($\theta$): Use trigonometry:
+                                <div class="formula">$$\tan\theta = \frac{\text{opposite}}{\text{adjacent}}$$</div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><b>Measurement Instruments:</b>
+                        <ul>
+                            <li>Length: Ruler (mm), Tape Measure (cm), Trundle Wheel (m).</li>
+                            <li>Units: $1 \text{ dm} = 10^{-1} \text{ m}$, $1 \text{ cm} = 10^{-2} \text{ m}$, $1 \text{ mm} = 10^{-3} \text{ m}$, $1 \mu\text{m} = 10^{-6} \text{ m}$, $1 \text{ nm} = 10^{-9} \text{ m}$.</li>
+                            <li>Multiples: $1 \text{ km} = 10^3 \text{ m}$, $1 \text{ Gm} = 10^9 \text{ m}$.</li>
+                            <li>Area: $\text{Area} = \text{length} \times \text{breadth}$, SI unit: square metre (m$^2$).</li>
+                            <li>Volume: Amount of space occupied. SI unit: cubic metre (m$^3$). Commonly used: cubic centimetre (cm$^3$).</li>
+                            <li>Volume of a cylinder: $V = \pi r^2 h$.</li>
+                            <li>Measuring cylinder (for liquids and irregular shapes by displacement). Always measure from the bottom of the meniscus.</li>
+                            <li>Time: Stopwatches, clocks. Unit: second (s). Time-measuring devices use oscillations.</li>
+                            <li>Mass: Balances. Unit: Kilogram (kg).</li>
+                            <li>Precision: Emphasize precision and avoiding parallax errors.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4>1.2 Motion</h4>
+                <ul>
+                    <li><b>Speed:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> Distance travelled per unit time.</li>
+                            <li>Formula: <div class="formula">$$v=\frac{s}{t}$$</div>
+                                <ul>
+                                    <li>$v$: speed (m/s)</li>
+                                    <li>$s$: distance travelled (m)</li>
+                                    <li>$t$: time (s)</li>
+                                </ul>
+                            </li>
+                            <li>Average Speed: Total distance travelled / Total time taken.</li>
+                        </ul>
+                    </li>
+                    <li><b>Velocity:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> Distance travelled in unit time in a given direction. Change in displacement per unit of time.</li>
+                            <li>Formula: <div class="formula">$$\text{Velocity}=\frac{\text{Distance moved in a given direction}}{\text{Time taken}}=\frac{\text{Displacement}}{\text{Time}}$$</div></li>
+                            <li>Velocity is a vector quantity; speed is a scalar quantity.</li>
+                            <li>Uniform velocity: steady speed in a straight line.</li>
+                        </ul>
+                    </li>
+                    <li><b>Acceleration:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> Rate of change of velocity. Change of velocity in unit time.</li>
+                            <li>Formula: <div class="formula">$$a=\frac{\Delta v}{t}=\frac{v-u}{t}$$</div>
+                                <ul>
+                                    <li>$a$: acceleration (m/s$^2$)</li>
+                                    <li>$\Delta v$: change in velocity (m/s)</li>
+                                    <li>$v$: final velocity (m/s)</li>
+                                    <li>$u$: initial velocity (m/s)</li>
+                                    <li>$t$: time taken (s)</li>
+                                </ul>
+                            </li>
+                            <li>Acceleration is positive if velocity increases, negative if velocity decreases (deceleration/retardation).</li>
+                        </ul>
+                    </li>
+                    <li><b>Graphs of Motion:</b>
+                        <ul>
+                            <li><b>Distance-Time Graphs:</b>
+                                <ul>
+                                    <li>Gradient = Speed.</li>
+                                    <li>Horizontal line = stationary.</li>
+                                    <li>Straight sloping line = constant speed.</li>
+                                    <li>Curved line = changing speed (accelerating: upward curve of increasing gradient; decelerating: upward curve of decreasing gradient).</li>
+                                </ul>
+                            </li>
+                            <li><b>Speed-Time Graphs:</b>
+                                <ul>
+                                    <li>Gradient = Acceleration.</li>
+                                    <li>Area under graph = Distance travelled.</li>
+                                    <li>Horizontal line = constant speed (zero acceleration).</li>
+                                    <li>Straight sloping line = constant acceleration/deceleration.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><b>Equations for constant acceleration:</b>
+                        <div class="formula">$$v=u+at$$</div>
+                        <div class="formula">$$s=\frac{(u+v)}{2} \cdot t$$</div>
+                    </li>
+                    <li><b>Freefall & Terminal Velocity:</b>
+                        <ul>
+                            <li><span class="definition">Freefall:</span> Motion under gravity only (negligible air resistance). Objects accelerate uniformly due to weight.</li>
+                            <li>Acceleration of Free Fall ($g$): $\approx 9.8 \text{ m/s}^2$ on Earth's surface.</li>
+                            <li><span class="definition">Air Resistance (Drag):</span> Frictional force opposing motion through air/fluids. Increases with speed. Has a greater effect on light bodies.</li>
+                            <li><span class="definition">Terminal Velocity:</span> Constant speed reached when the force of air resistance equals the weight of the falling object, resulting in zero resultant force and zero acceleration. Depends on object's size, shape, and weight.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4>1.3 Mass and weight</h4>
+                <ul>
+                    <li><b>Mass:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> Measure of the quantity of matter in an object at rest relative to the observer. Property of an object that resists change in motion.</li>
+                            <li>Scalar quantity.</li>
+                            <li>Unit: Kilogram (kg). (1 g = 0.001 kg)</li>
+                        </ul>
+                    </li>
+                    <li><b>Weight:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> Gravitational force acting on an object that has mass.</li>
+                            <li>Vector quantity (acts downwards).</li>
+                            <li>Unit: Newton (N).</li>
+                            <li>Formula: <div class="formula">$$W=mg$$</div>
+                                <ul>
+                                    <li>$W$: weight (N)</li>
+                                    <li>$m$: mass (kg)</li>
+                                    <li>$g$: gravitational field strength (N/kg or m/s$^2$)</li>
+                                </ul>
+                            </li>
+                            <li>Weight varies with location due to differences in gravitational field strength.</li>
+                            <li>Gravitational Field Strength ($g$): Force per unit mass. On Earth's surface, $g = 9.8 \text{ N/kg}$ or $9.8 \text{ m/s}^2$.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4>1.4 Density</h4>
+                <ul>
+                    <li><span class="definition">Definition:</span> Mass per unit volume.</li>
+                    <li>Formula: <div class="formula">$$\rho=\frac{m}{V}$$</div>
+                        <ul>
+                            <li>$\rho$: density (kg/m$^3$ or g/cm$^3$)</li>
+                            <li>$m$: mass (kg or g)</li>
+                            <li>$V$: volume (m$^3$ or cm$^3$)</li>
+                        </ul>
+                    </li>
+                    <li><b>Calculation Methods:</b>
+                        <ul>
+                            <li>Regular Shape: Measure mass (m) using a balance, and volume (V) by direct measurement of dimensions.</li>
+                            <li>Irregular Shape: Measure mass (m) using a balance. Measure volume (V) using displacement methods (e.g., measuring cylinder, displacement can).</li>
+                            <li>Liquid: Measure mass of empty container, then with liquid. Subtract to find liquid mass. Divide by known volume.</li>
+                        </ul>
+                    </li>
+                    <li><b>Floating & Sinking:</b> Objects float or sink based on their density relative to the liquid's density. A higher-density object sinks in a lower-density liquid and vice versa.</li>
+                </ul>
+
+                <h4>1.5 Forces</h4>
+                <ul>
+                    <li><b>Force:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> A push or a pull that acts on an object due to interaction with another object.</li>
+                            <li>Effects: Can change an object's speed, direction, shape, or size. Examples include thrust, gravitational attraction, compression.</li>
+                            <li>Unit: Newton (N).</li>
+                            <li><span class="definition">Resultant Force:</span> The single force that has the same effect as all the individual forces acting on an object. Found by vector addition. A resultant force changes the velocity of an object.</li>
+                        </ul>
+                    </li>
+                    <li><b>Newton's Laws of Motion:</b>
+                        <ul>
+                            <li><b>First Law (Law of Inertia):</b> An object remains at rest or continues to move at a constant speed in a straight line unless acted upon by a resultant force.</li>
+                            <li><b>Second Law of Motion:</b> The acceleration of an object is directly proportional to the resultant force acting on it and inversely proportional to its mass.
+                                <div class="formula">$$F=ma$$</div>
+                                <ul>
+                                    <li>$F$: resultant force (N)</li>
+                                    <li>$m$: mass (kg)</li>
+                                    <li>$a$: acceleration (m/s$^2$)</li>
+                                </ul>
+                                Also defined as force equals the rate of change of momentum ($F=\frac{\Delta p}{\Delta t}$).
+                            </li>
+                            <li><b>Third Law of Motion:</b> For every action, there is an equal and opposite reaction. Forces always occur in pairs.</li>
+                        </ul>
+                    </li>
+                    <li><b>Hooke's Law (Extension in Springs):</b> The extension of a spring is directly proportional to the stretching force up to the limit of proportionality.
+                        <div class="formula">$$F=kx$$</div>
+                        <ul>
+                            <li>$F$: force (N)</li>
+                            <li>$k$: spring constant (N/m)</li>
+                            <li>$x$: extension (m)</li>
+                        </ul>
+                        Load-Extension Graphs: Show relationship between applied force and extension. Non-linear graphs beyond the limit of proportionality indicate permanent deformation.
+                    </li>
+                    <li><b>Friction:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> The force that opposes the motion of one surface over another.</li>
+                            <li>Types: Static friction (opposes starting motion), Kinetic friction (opposes sliding motion), Fluid friction/Drag (resistance in fluids).</li>
+                            <li>Friction converts kinetic energy into thermal energy.</li>
+                        </ul>
+                    </li>
+                    <li><b>Circular Motion (Centripetal Force):</b> In a circular motion, an object moves in a curved path due to a force directed towards the centre of the circle. This force is called centripetal force.
+                        <ul>
+                            <li>Despite constant speed, circular motion involves acceleration because velocity direction changes continuously.</li>
+                            <li>Factors affecting centripetal force: Speed (v), Radius (r), Mass (m). Increasing v or m, or decreasing r increases centripetal force.</li>
+                        </ul>
+                    </li>
+                    <li><b>Moments:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> The turning effect of a force around a pivot point.</li>
+                            <li>Formula: <div class="formula">$$\text{Moment} =F \times d$$</div>
+                                <ul>
+                                    <li>$F$: force (N)</li>
+                                    <li>$d$: perpendicular distance from the pivot to the line of action of the force (m)</li>
+                                </ul>
+                            </li>
+                            <li>Unit: Newton-metre (Nm).</li>
+                            <li><span class="definition">Principle of Moments:</span> For an object to be in equilibrium (balanced), the sum of the clockwise moments about any point equals the sum of the anticlockwise moments about the same point.</li>
+                            <li>Conditions for Equilibrium: Sum of all forces equals zero (static equilibrium), and sum of all moments equals zero (rotational equilibrium).</li>
+                        </ul>
+                    </li>
+                    <li><b>Centre of Gravity:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> The single point where the entire weight of an object appears to act.</li>
+                            <li>Stability: An object is stable if its centre of gravity remains over its base of support. Increasing base area and lowering centre of gravity improves stability.</li>
+                            <li>Types of Equilibrium: Stable, Unstable, Neutral.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4>1.6 Momentum</h4>
+                <ul>
+                    <li><b>Momentum ($p$):</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> The product of an object's mass ($m$) and its velocity ($v$).</li>
+                            <li>Formula: <div class="formula">$$p=mv$$</div></li>
+                            <li>Vector quantity: has both magnitude and direction.</li>
+                            <li>Unit: kilogram metre per second (kg m/s) or newton second (Ns).</li>
+                        </ul>
+                    </li>
+                    <li><b>Impulse ($J$):</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> The change in momentum ($\Delta p$) of an object when a force acts on it over a period of time ($\Delta t$).</li>
+                            <li>Formula: <div class="formula">$$J=F\Delta t=\Delta p$$</div></li>
+                            <li>Impulse is a vector quantity, same direction as the force.</li>
+                        </ul>
+                    </li>
+                    <li><b>Principle of Conservation of Momentum:</b> The total momentum of a closed system of objects remains constant if no external forces act on it. Momentum is conserved in collisions (elastic and inelastic) and explosions. $p_{\text{initial}} = p_{\text{final}}$.</li>
+                </ul>
+
+                <h4>1.7 Energy, work and power</h4>
+                <ul>
+                    <li><b>Energy:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> The ability to do work.</li>
+                            <li>Unit: Joule (J).</li>
+                            <li>Energy Stores: Chemical, Gravitational Potential, Elastic Strain, Kinetic, Electrostatic, Nuclear, Internal (Thermal).</li>
+                            <li>Energy Transfers: Mechanical Working, Electrical Working, Waves (Electromagnetic and Sound), Heating.</li>
+                        </ul>
+                    </li>
+                    <li><b>Kinetic Energy (KE):</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> Energy possessed by an object due to its motion.</li>
+                            <li>Formula: <div class="formula">$$KE=\frac{1}{2}mv^2$$</div>
+                                <ul>
+                                    <li>$m$: mass (kg)</li>
+                                    <li>$v$: speed (m/s)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><b>Potential Energy (PE) / Gravitational Potential Energy (GPE):</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> Energy an object has due to its position or condition.</li>
+                            <li>Formula: <div class="formula">$$GPE=mgh$$</div>
+                                <ul>
+                                    <li>$m$: mass (kg)</li>
+                                    <li>$g$: gravitational field strength (N/kg or m/s$^2$)</li>
+                                    <li>$h$: height (m)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><b>Principle of Conservation of Energy:</b> Energy cannot be created or destroyed, only transformed from one form to another. The total energy in a closed system remains constant.</li>
+                    <li><b>Work ($W$):</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> Energy transferred when a force ($F$) displaces a body through a distance ($d$) in the direction of the force.</li>
+                            <li>Formula: <div class="formula">$$W=F \cdot d$$</div></li>
+                            <li>Unit: Joule (J), where $1 \text{ J} = 1 \text{ N} \cdot \text{m}$.</li>
+                        </ul>
+                    </li>
+                    <li><b>Power ($P$):</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> The rate at which work is done or energy is transferred.</li>
+                            <li>Formulas:
+                                <div class="formula">$$P=\frac{W}{t}$$</div>
+                                <div class="formula">$$P=\frac{\Delta E}{t}$$</div>
+                                <div class="formula">$$P=Fv \text{ (for constant force and velocity)}$$</div>
+                            </li>
+                            <li>Unit: Watt (W), where $1 \text{ W} = 1 \text{ J/s}$.</li>
+                            <li>Larger units: $1 \text{ kW} = 10^3 \text{ W}$, $1 \text{ MW} = 10^6 \text{ W}$.</li>
+                        </ul>
+                    </li>
+                    <li><b>Efficiency:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> The ratio of useful energy output to total energy input, often expressed as a percentage.</li>
+                            <li>Formulas:
+                                <div class="formula">$$\text{Efficiency} = \frac{\text{useful energy output}}{\text{total energy input}} \times 100\%$$</div>
+                                <div class="formula">$$\text{Efficiency} = \frac{\text{useful power output}}{\text{total power input}} \times 100\%$$</div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><b>Sankey Diagrams:</b> Used to visually represent energy transfers and efficiencies, showing useful output and wasted energy proportionally by arrow width.</li>
+                    <li><b>Energy Resources:</b>
+                        <ul>
+                            <li>Fossil Fuels (Non-renewable): Coal, natural gas. Burned to heat water, produce steam, drive turbines connected to generators.</li>
+                            <li>Nuclear Fuels (Non-renewable): Uranium. Controlled nuclear fission generates heat to produce steam indirectly, driving turbines.</li>
+                            <li>Renewable Energy Sources: Solar, Wind, Wave, Tidal, Hydroelectric, Geothermal, Biofuels.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4>1.8 Pressure</h4>
+                <ul>
+                    <li><b>Pressure:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> Force per unit area.</li>
+                            <li>Formula: <div class="formula">$$p=\frac{F}{A}$$</div>
+                                <ul>
+                                    <li>$p$: pressure (Pa or N/m$^2$)</li>
+                                    <li>$F$: force (N)</li>
+                                    <li>$A$: area (m$^2$)</li>
+                                </ul>
+                            </li>
+                            <li>Unit: Pascal (Pa), where $1 \text{ Pa} = 1 \text{ N/m}^2$.</li>
+                            <li>Greater area over which a force acts results in less pressure.</li>
+                        </ul>
+                    </li>
+                    <li><b>Liquid Pressure:</b>
+                        <ul>
+                            <li>Pressure in a liquid increases with depth because of the greater weight of liquid above.</li>
+                            <li>Pressure at one depth acts equally in all directions.</li>
+                            <li>Pressure depends on the density of the liquid.</li>
+                            <li>Formula: <div class="formula">$$\Delta p=\rho g\Delta h$$</div>
+                                <ul>
+                                    <li>$\Delta p$: change in pressure (Pa)</li>
+                                    <li>$\rho$: density of the liquid (kg/m$^3$)</li>
+                                    <li>$g$: gravitational field strength (N/kg or m/s$^2$)</li>
+                                    <li>$\Delta h$: change in depth (m)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="test-options">
+                <button onclick="startTest('unit1_1_mcq')">Unit 1.1 MCQ</button>
+                <button onclick="startTest('unit1_1_theory')">Unit 1.1 Theory</button>
+                <button onclick="startTest('unit1_2_mcq')">Unit 1.2 MCQ</button>
+                <button onclick="startTest('unit1_2_theory')">Unit 1.2 Theory</button>
+                <button onclick="startTest('unit1_3_mcq')">Unit 1.3 MCQ</button>
+                <button onclick="startTest('unit1_3_theory')">Unit 1.3 Theory</button>
+                <button onclick="startTest('unit1_4_mcq')">Unit 1.4 MCQ</button>
+                <button onclick="startTest('unit1_4_theory')">Unit 1.4 Theory</button>
+                <button onclick="startTest('unit1_5_mcq')">Unit 1.5 MCQ</button>
+                <button onclick="startTest('unit1_5_theory')">Unit 1.5 Theory</button>
+                <button onclick="startTest('unit1_6_mcq')">Unit 1.6 MCQ</button>
+                <button onclick="startTest('unit1_6_theory')">Unit 1.6 Theory</button>
+                <button onclick="startTest('unit1_7_mcq')">Unit 1.7 MCQ</button>
+                <button onclick="startTest('unit1_7_theory')">Unit 1.7 Theory</button>
+                <button onclick="startTest('unit1_8_mcq')">Unit 1.8 MCQ</button>
+                <button onclick="startTest('unit1_8_theory')">Unit 1.8 Theory</button>
+            </div>
+        </section>
+
+        <section id="unit2" class="unit-notes">
+            <h2>Unit 2: Thermal Physics</h2>
+            <div id="unit2-content">
+                <h4>2.1 Kinetic particle model of matter</h4>
+                <ul>
+                    <li><b>States of Matter:</b>
+                        <ul>
+                            <li>Matter consists of tiny particles (molecules, atoms).</li>
+                            <li>Solids: Definite shape and volume, particles close together in fixed positions, vibrate, strong forces, incompressible.</li>
+                            <li>Liquids: Definite volume, take shape of container, particles further apart and can slide, weaker forces, incompressible.</li>
+                            <li>Gases: No definite shape or volume, particles move much further apart and freely, negligible forces, highly compressible.</li>
+                        </ul>
+                    </li>
+                    <li><b>Brownian Motion:</b> Random and erratic motion of particles in fluids (liquids and gases) caused by collisions with smaller, faster-moving particles of the fluid. Provides evidence for the kinetic model of matter.</li>
+                    <li><b>Pressure and Kinetic Energy (Gases):</b>
+                        <ul>
+                            <li>Gas particles move randomly at high speeds.</li>
+                            <li>Collisions with container walls change momentum, creating force and pressure.</li>
+                            <li>Increasing temperature increases collision frequency and energy, thus increasing pressure (at constant volume).</li>
+                            <li>Reducing volume increases particle concentration, leading to more collisions and higher pressure (at constant temperature).</li>
+                        </ul>
+                    </li>
+                </ul>
+                <h4>2.2 Thermal properties and temperature</h4>
+                <ul>
+                    <li><b>Temperature and Kinetic Energy:</b>
+                        <ul>
+                            <li>Particles in solids vibrate in fixed positions. Heating increases vibrations and average kinetic energy.</li>
+                            <li>Cooling reduces vibrations until absolute zero (0 K or $-273^\circ\text{C}$), where all motion stops.</li>
+                        </ul>
+                    </li>
+                    <li><b>Absolute Zero and Kelvin Temperature Scale:</b>
+                        <ul>
+                            <li>Absolute zero: Lowest possible temperature.</li>
+                            <li>Kelvin scale temperatures are derived by adding 273 to Celsius temperatures: <div class="formula">$$T(K) = \theta(^\circ\text{C}) + 273$$</div></li>
+                            <li>In Kelvin scale, temperatures are always positive and directly proportional to the average kinetic energy of particles.</li>
+                        </ul>
+                    </li>
+                    <li><b>Boyle's Law:</b> For a fixed mass of gas at constant temperature, the product of pressure and volume is constant.
+                        <div class="formula">$$p_1V_1 = p_2V_2$$</div>
+                        Graphing pressure ($p$) against the reciprocal of volume ($\frac{1}{V}$) gives a straight line.
+                    </li>
+                    <li><b>Thermal Expansion:</b>
+                        <ul>
+                            <li>Solids and Liquids: When heated, particles vibrate more, pushing apart slightly, causing expansion.</li>
+                            <li>Gases: Heating increases particle speed and collisions with container walls, causing container expansion to maintain pressure.</li>
+                            <li>Applications:
+                                <ul>
+                                    <li>Bimetallic Strips: Made from metals with different expansion rates (e.g., copper and iron). Used in fire alarms and thermostats.</li>
+                                    <li>Shrink-fitting: Cooling components contracts them, fitting tightly into other parts upon warming.</li>
+                                    <li>Lid Removal: Expanding metal lids with hot water loosens them from glass jars.</li>
+                                </ul>
+                            </li>
+                            <li>Precautions: Expansion joints are spaces left between rail tracks and pipes to allow for thermal expansion without damage.</li>
+                        </ul>
+                    </li>
+                    <li><b>Internal Energy and Heating:</b> Internal energy increases when an object is heated.</li>
+                    <li><b>Specific Heat Capacity ($c$):</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> The energy required per unit mass per unit temperature increase.</li>
+                            <li>Formula: <div class="formula">$$\Delta E = mc\Delta\theta$$</div>
+                                <ul>
+                                    <li>$\Delta E$: heat energy (J)</li>
+                                    <li>$m$: mass (kg)</li>
+                                    <li>$c$: specific heat capacity (J/(kg$^\circ\text{C}$))</li>
+                                    <li>$\Delta\theta$: temperature change ($^\circ\text{C}$)</li>
+                                </ul>
+                            </li>
+                            <li>Materials with higher specific heat capacities require more heat energy per unit mass for the same temperature change.</li>
+                        </ul>
+                    </li>
+                    <li><b>Heat Transfer and Equilibrium:</b> Heat transfers from higher to lower temperature bodies until thermal equilibrium is reached.</li>
+                    <li><b>Change of State:</b>
+                        <ul>
+                            <li>Heating can change a solid to a liquid (melting) and a liquid to a solid (freezing). Pure substances melt and freeze at specific temperatures.</li>
+                            <li>Melting: Solid to liquid. Particles overcome intermolecular forces.</li>
+                            <li>Solidification (Freezing): Liquid to solid. Particles lose potential energy to surroundings.</li>
+                            <li>Vaporisation: Liquid to gas (vapour). Requires substantial energy to overcome intermolecular forces.</li>
+                            <li>Condensation: Gas to liquid. Gas particles lose potential energy.</li>
+                            <li>Evaporation:
+                                <ul>
+                                    <li>Occurs at any temperature below the boiling point, only at the surface.</li>
+                                    <li>Higher temperatures, larger surface areas, and wind/draughts increase the rate.</li>
+                                    <li>Energy is transferred from the liquid to the surroundings, cooling the liquid.</li>
+                                </ul>
+                            </li>
+                            <li>Differences between Boiling and Evaporation:
+                                <table class="border-collapse border border-gray-400 dark:border-gray-600 my-2">
+                                    <thead>
+                                        <tr>
+                                            <th class="border border-gray-300 dark:border-gray-500 px-2 py-1">Feature</th>
+                                            <th class="border border-gray-300 dark:border-gray-500 px-2 py-1">Boiling</th>
+                                            <th class="border border-gray-300 dark:border-gray-500 px-2 py-1">Evaporation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Temperature</td>
+                                            <td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Occurs at a specific boiling temperature.</td>
+                                            <td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Occurs at any temperature below boiling point.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Process</td>
+                                            <td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Bubbles of vapour form within the liquid.</td>
+                                            <td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Occurs at the surface of the liquid.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Energy Req.</td>
+                                            <td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Requires sufficient heat to reach boiling point.</td>
+                                            <td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Requires less heat and occurs due to energetic particles escaping.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Speed</td>
+                                            <td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Rapid.</td>
+                                            <td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Slower.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Throughout Liquid?</td>
+                                            <td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Happens throughout the entire volume.</td>
+                                            <td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Happens only at the liquid's surface.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <h4>2.3 Transfer of thermal energy</h4>
+                <ul>
+                    <li><b>Conduction:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> Heat transfer through matter from hot to cold without moving matter.</li>
+                            <li>Metals conduct heat well (e.g., copper, aluminum) due to fast-moving free electrons and lattice vibrations.</li>
+                            <li>Insulators (wood, plastic) are poor conductors; non-metals transfer heat through slower atomic/molecular vibrations.</li>
+                            <li>Liquids and gases conduct heat slowly because particles are further apart.</li>
+                        </ul>
+                    </li>
+                    <li><b>Convection:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> Heat transfer method in fluids (liquids and gases) by movement of the matter itself.</li>
+                            <li>Convection Currents: Warm fluids expand, become less dense, and rise. Cooler, denser fluids sink and replace the rising warm fluid, creating a current.</li>
+                        </ul>
+                    </li>
+                    <li><b>Radiation:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> Method of thermal energy transfer which occurs without matter, even in a vacuum. Emits as electromagnetic waves, travels at speed of light.</li>
+                            <li>Absorption and Reflection: Black surfaces absorb more radiation than shiny white ones. Shiny white surfaces are poor absorbers/emitters and good reflectors.</li>
+                            <li>Emission: Dull black surfaces emit more radiation than shiny surfaces when hot. All bodies emit radiation above absolute zero.</li>
+                        </ul>
+                    </li>
+                    <li><b>Greenhouse Effect:</b> Greenhouse gases trap heat similar to glass in a greenhouse, crucial for climate stability. Increased carbon dioxide and methane absorb more infrared which cannot escape.</li>
+                </ul>
+            </div>
+            <div class="test-options">
+                <button onclick="startTest('unit2_1_mcq')">Unit 2.1 MCQ</button>
+                <button onclick="startTest('unit2_1_theory')">Unit 2.1 Theory</button>
+                <button onclick="startTest('unit2_2_mcq')">Unit 2.2 MCQ</button>
+                <button onclick="startTest('unit2_2_theory')">Unit 2.2 Theory</button>
+                <button onclick="startTest('unit2_3_mcq')">Unit 2.3 MCQ</button>
+                <button onclick="startTest('unit2_3_theory')">Unit 2.3 Theory</button>
+            </div>
+        </section>
+
+        <section id="unit3" class="unit-notes">
+            <h2>Unit 3: Light, Sound & The Electromagnetic Spectrum</h2>
+            <div id="unit3-content">
+                <h4>3.1 General properties of waves</h4>
+                <ul>
+                    <li><b>Waves:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> Disturbances that transfer energy from one place to another without transferring matter.</li>
+                            <li>Particles in the medium oscillate or vibrate about a fixed point.</li>
+                        </ul>
+                    </li>
+                    <li><b>Two Types of Progressive Waves:</b>
+                        <ul>
+                            <li><b>Transverse Waves:</b>
+                                <ul>
+                                    <li><span class="definition">Definition:</span> Oscillations of particles are perpendicular to the direction of energy transfer.</li>
+                                    <li>Examples: Light waves, all electromagnetic waves, waves on a string, water waves.</li>
+                                    <li>Features: Crests (peaks) and Troughs (valleys).</li>
+                                </ul>
+                            </li>
+                            <li><b>Longitudinal Waves:</b>
+                                <ul>
+                                    <li><span class="definition">Definition:</span> Oscillations of particles are parallel to the direction of energy transfer.</li>
+                                    <li>Examples: Sound waves.</li>
+                                    <li>Features: Compressions (regions of high pressure/density) and Rarefactions (regions of low pressure/density).</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><b>Wave Characteristics:</b>
+                        <ul>
+                            <li>Wavelength ($\lambda$): Distance between 2 successive crests/troughs (or compressions/rarefactions).</li>
+                            <li>Frequency ($f$): Number of complete waves created per second, measured in Hertz (Hz).</li>
+                            <li>Wave speed ($v$): Distance moved by a crest or any point on the wave in 1 second.</li>
+                            <li>Amplitude ($a$): Height of a crest or depth of a trough from the undisturbed or mean position.</li>
+                            <li>Phase: Particles in ‘phase’ have the same speed and direction of vibration.</li>
+                        </ul>
+                    </li>
+                    <li><b>Wave Equation:</b> Relates wave speed, frequency, and wavelength.
+                        <div class="formula">$$v=f \times \lambda$$</div>
+                        Faster vibration produces a shorter wavelength; higher frequency results in a smaller wavelength.
+                    </li>
+                    <li><b>Wavefronts and Rays:</b>
+                        <ul>
+                            <li>Wavefront: A straight line where the wave has the same phase at all points.</li>
+                            <li>Ray: Line drawn at right angles to a wavefront showing the direction of travel.</li>
+                        </ul>
+                    </li>
+                    <li><b>Wave Behaviour:</b>
+                        <ul>
+                            <li><b>Reflection:</b> Bouncing back of a wave when it hits a boundary.
+                                <ul>
+                                    <li>Law of Reflection: Angle of incidence ($i$) = Angle of reflection ($r$).</li>
+                                    <li>Wavelength and speed remain unchanged.</li>
+                                </ul>
+                            </li>
+                            <li><b>Refraction:</b> Bending of a wave as it passes from one medium to another, due to a change in speed and wavelength.
+                                <ul>
+                                    <li>When waves move from less dense to more dense regions, they bend towards the normal (light waves slow down due to smaller wavelengths).</li>
+                                    <li>When waves move from dense to less dense regions, they bend away from normal (light waves speed up due to bigger wavelengths).</li>
+                                </ul>
+                            </li>
+                            <li><b>Diffraction:</b> Spreading out of waves as they pass through a gap or around an obstacle, creating circular wavefronts.
+                                <ul>
+                                    <li>Most noticeable when the gap size is similar to the wavelength.</li>
+                                    <li>Longer wavelengths diffract more.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><b>Ripple Tank:</b> Used to demonstrate wave phenomena (reflection, refraction, diffraction) with water waves.</li>
+                </ul>
+
+                <h4>3.2 Light</h4>
+                <ul>
+                    <li><b>Light Rays and Beams:</b> Light travels in a path called a ray. A beam is a stream of light shown by several rays (can be parallel, diverging, or converging).</li>
+                    <li><b>Speed of Light:</b> Approximately $3 \times 10^8 \text{ m/s}$ in a vacuum (or 300,000 km/s).</li>
+                    <li><b>Reflection of Light against a Plane Mirror:</b>
+                        <ul>
+                            <li>The normal is perpendicular to the mirror at the point where the incident ray strikes.</li>
+                            <li>The angle of incidence ($i$) is between the incident ray and the normal.</li>
+                            <li>The angle of reflection ($r$) is between the reflected ray and the normal.</li>
+                            <li>Law of Reflection: Angle of incidence ($i$) = Angle of reflection ($r$).</li>
+                        </ul>
+                    </li>
+                    <li><b>Real and Virtual Images:</b>
+                        <ul>
+                            <li><span class="definition">Real Image:</span> Formed when light rays actually converge at a point. Can be produced on a screen. (e.g., image formed by a converging lens when object is beyond focal point).</li>
+                            <li><span class="definition">Virtual Image:</span> Formed when light rays appear to diverge from a point. Cannot be formed on a screen. (e.g., image in a plane mirror, image formed by a diverging lens).</li>
+                        </ul>
+                    </li>
+                    <li><b>Refractive Index ($n$):</b> A measure of how much a medium slows down light.
+                        <ul>
+                            <li><span class="definition">Definition:</span> Ratio of light speed in air (or vacuum) to light speed in the medium.</li>
+                            <li>Formula: <div class="formula">$$n=\frac{\text{speed of light in air}}{\text{speed of light in medium}}=\frac{c}{v}$$</div></li>
+                            <li>Snell's Law: <div class="formula">$$n=\frac{\sin i}{\sin r}$$</div> (where $i$ is angle in air, $r$ is angle in medium).</li>
+                            <li>Higher refractive index means greater bending of light as it slows down more.</li>
+                        </ul>
+                    </li>
+                    <li><b>Critical Angle ($c$) and Total Internal Reflection (TIR):</b>
+                        <ul>
+                            <li>When light passes from an optically denser to an optically less dense medium:
+                                <ul>
+                                    <li><span class="definition">Critical Angle ($c$):</span> The angle of incidence in the denser medium for which the angle of refraction in the less dense medium is $90^\circ$.</li>
+                                    <li>Formula: <div class="formula">$$\sin c = \frac{1}{n}$$</div></li>
+                                </ul>
+                            </li>
+                            <li><span class="definition">Total Internal Reflection (TIR):</span> Occurs when the angle of incidence in the denser medium is greater than the critical angle ($c$), causing all light to reflect internally.</li>
+                            <li>Applications: Optical fibres, periscopes, binoculars.</li>
+                        </ul>
+                    </li>
+                    <li><b>Lenses:</b>
+                        <ul>
+                            <li>Converging (Convex) Lens: Thickest in the center, bends light inwards to a real principal focus (F).</li>
+                            <li>Diverging (Concave) Lens: Thinnest in the center, spreads light out, light appears to diverge from a virtual principal focus.</li>
+                            <li>Optical Center (C): Center of a lens.</li>
+                            <li>Principal Axis: Line through C at right angles to the lens.</li>
+                            <li>Focal Length ($f$): Distance from C to F.</li>
+                            <li>Ray Diagrams (for thin lenses):
+                                <ul>
+                                    <li>A ray parallel to the principal axis is refracted through the principal focus (F).</li>
+                                    <li>A ray through the optical center (C) is undeviated (not refracted).</li>
+                                    <li>A ray through the principal focus (F) is refracted parallel to the principal axis.</li>
+                                    <li>The intersection of rays after refraction gives the location of the image.</li>
+                                </ul>
+                            </li>
+                            <li>Magnification ($M$):
+                                <div class="formula">$$M = \frac{\text{image size}}{\text{object size}} = \frac{\text{distance of image from lens}}{\text{distance of object from lens}}$$</div>
+                            </li>
+                            <li>Image Properties at different object positions:
+                                <table class="border-collapse border border-gray-400 dark:border-gray-600 my-2">
+                                    <thead>
+                                        <tr>
+                                            <th class="border border-gray-300 dark:border-gray-500 px-2 py-1">Object Position</th>
+                                            <th class="border border-gray-300 dark:border-gray-500 px-2 py-1">Image Position</th>
+                                            <th class="border border-gray-300 dark:border-gray-500 px-2 py-1">Image Nature</th>
+                                            <th class="border border-gray-300 dark:border-gray-500 px-2 py-1">Image Size</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td class="border border-gray-300 dark:border-gray-500 px-2 py-1">At 2F</td><td class="border border-gray-300 dark:border-gray-500 px-2 py-1">At 2F</td><td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Real, inverted</td><td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Same size</td></tr>
+                                        <tr><td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Between 2F and F</td><td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Beyond 2F</td><td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Real, inverted</td><td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Larger</td></tr>
+                                        <tr><td class="border border-gray-300 dark:border-gray-500 px-2 py-1">At F</td><td class="border border-gray-300 dark:border-gray-500 px-2 py-1">At infinity</td><td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Real, inverted</td><td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Infinitely large</td></tr>
+                                        <tr><td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Between F and lens</td><td class="border border-gray-300 dark:border-gray-500 px-2 py-1">On same side of lens</td><td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Virtual, upright</td><td class="border border-gray-300 dark:border-gray-500 px-2 py-1">Larger</td></tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li>Applications of Lenses in Vision Correction:
+                                <ul>
+                                    <li>Short-Sightedness (Myopia): Eye focuses light in front of retina. Corrected with a diverging (concave) lens.</li>
+                                    <li>Long-Sightedness (Hypermetropia): Eye focuses light behind retina. Corrected with a converging (convex) lens.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><b>Dispersion of Light:</b>
+                        <ul>
+                            <li>Refraction by a Prism: A prism bends light due to refraction at each surface, causing a combined change in direction (deviation).</li>
+                            <li><span class="definition">Dispersion:</span> The splitting of white light into its constituent colours (spectrum) when it passes through a prism. Occurs because the refractive index of glass varies with the wavelength of light.</li>
+                            <li>Visible Spectrum: ROYGBIV (Red, Orange, Yellow, Green, Blue, Indigo, Violet). Red light (longest wavelength, lowest frequency) is refracted least; Violet light (shortest wavelength, highest frequency) is refracted most.</li>
+                            <li>Monochromatic Light: Light of a single frequency (and thus a single colour).</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4>3.3 Electromagnetic spectrum</h4>
+                <ul>
+                    <li><b>Electromagnetic (EM) Waves:</b>
+                        <ul>
+                            <li>Nature: Transverse waves.</li>
+                            <li>Speed: All EM waves travel at the speed of light in a vacuum ($3.0 \times 10^8 \text{ m/s}$).</li>
+                            <li>Medium: Do not require a medium to travel (can travel through a vacuum).</li>
+                            <li>Energy: Energy of EM waves increases with frequency and decreases with wavelength.</li>
+                            <li>Follow the wave equation $v=f\lambda$.</li>
+                        </ul>
+                    </li>
+                    <li><b>EM Spectrum Order</b> (from longest wavelength/lowest frequency/lowest energy to shortest wavelength/highest frequency/highest energy):
+                        <ol>
+                            <li>Radio Waves</li>
+                            <li>Microwaves</li>
+                            <li>Infrared (IR)</li>
+                            <li>Visible Light (ROYGBIV)</li>
+                            <li>Ultraviolet (UV)</li>
+                            <li>X-rays</li>
+                            <li>Gamma Rays</li>
+                        </ol>
+                    </li>
+                    <li><b>Uses of EM Waves:</b>
+                        <ul>
+                            <li>Radio waves: Broadcasting, communication (radio, TV), astronomy, RFID.</li>
+                            <li>Microwaves: Telecommunications, satellite communication, radar, microwave ovens.</li>
+                            <li>Infrared: Remote controls, thermal imaging, heating, optical fibres, electric grills, intruder alarms.</li>
+                            <li>Visible light: Seeing, photography, illumination, optical instruments.</li>
+                            <li>Ultraviolet: Sterilization, sunbeds, fluorescent lamps, security marking, water treatment, artificial skin-tanning.</li>
+                            <li>X-rays: Medical imaging (bone fractures), security screening, industrial inspection.</li>
+                            <li>Gamma rays: Cancer detection and treatment, sterilization, material inspection.</li>
+                        </ul>
+                    </li>
+                    <li><b>Dangers of EM Waves:</b>
+                        <ul>
+                            <li>High-frequency EM waves (UV, X-rays, Gamma rays) are ionizing radiation, meaning they can cause damage to living cells and DNA, leading to mutations and cancer. High-intensity infrared can cause burns and eye damage.</li>
+                        </ul>
+                    </li>
+                    <li><b>Communication Systems:</b>
+                        <ul>
+                            <li>Analogue Signals: Continuous, varying amplitude and frequency. Limited by bandwidth and signal degradation.</li>
+                            <li>Digital Signals: Discrete, binary (0s and 1s).</li>
+                            <li>Advantages of Digital: Higher transmission rates, can be regenerated without loss of quality (minimal noise), increased range, error checking possible.</li>
+                            <li>Infrared Optical Fibers: Use total internal reflection to transmit infrared/light for long-distance data transmission, offering high bandwidth and low signal loss.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4>3.4 Sound</h4>
+                <ul>
+                    <li><b>Sound Waves:</b>
+                        <ul>
+                            <li>Nature: Longitudinal waves.</li>
+                            <li>Medium: Require a medium (solid, liquid, or gas) to travel; cannot travel through a vacuum.</li>
+                            <li>Production: Produced by vibrating sources.</li>
+                            <li>Compressions and Rarefactions: Regions of high (densely packed molecules) and low (less densely packed molecules) pressure, respectively.</li>
+                        </ul>
+                    </li>
+                    <li><b>Speed of Sound:</b>
+                        <ul>
+                            <li>Varies depending on the medium: fastest in solids ($\approx 5100 \text{ m/s}$ in steel), slower in liquids ($\approx 1500 \text{ m/s}$ in water), slowest in gases ($\approx 330-350 \text{ m/s}$ in air at room temperature).</li>
+                            <li>Affected by temperature (faster in warmer air).</li>
+                            <li>Measurement Methods:
+                                <ul>
+                                    <li>Echo Method: <div class="formula">$$v=\frac{2d}{t}$$</div> (sound travels to wall and back).</li>
+                                    <li>Direct Method: <div class="formula">$$v=\frac{d}{t}$$</div> (using two microphones).</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><b>Echoes:</b> Reflected sound waves. Used to measure distances.</li>
+                    <li><b>Frequency and Wavelength:</b>
+                        <ul>
+                            <li>Frequency ($f$) of a sound wave is the number of complete wave cycles per second (Hz). Higher frequencies mean higher-pitch sounds.</li>
+                            <li>Wavelength ($\lambda$) is the distance between two consecutive compressions or rarefactions.</li>
+                            <li>The speed of sound ($v$) is $v=f\lambda$.</li>
+                        </ul>
+                    </li>
+                    <li><b>Limits of Hearing:</b> Humans can only hear sound frequencies ranging from about 20 Hz (low pitch) to 20,000 Hz (high pitch). The upper limit decreases with age.</li>
+                    <li><b>Musical Notes:</b>
+                        <ul>
+                            <li>Pitch: Determined by the frequency of the sound wave.</li>
+                            <li>Loudness: Determined by the amplitude of vibrations.</li>
+                            <li>Quality (timbre): Unique shape or texture, caused by the instrument's construction.</li>
+                        </ul>
+                    </li>
+                    <li><b>Ultrasound:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> Sound waves with frequencies above the upper limit of human hearing ($>20,000 \text{ Hz}$).</li>
+                            <li>Uses: Medical imaging (e.g., prenatal scans), industrial applications for precision and non-destructive testing (e.g., checking for cracks in steel bolts), echo sounding.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="test-options">
+                <button onclick="startTest('unit3_1_mcq')">Unit 3.1 MCQ</button>
+                <button onclick="startTest('unit3_1_theory')">Unit 3.1 Theory</button>
+                <button onclick="startTest('unit3_2_mcq')">Unit 3.2 MCQ</button>
+                <button onclick="startTest('unit3_2_theory')">Unit 3.2 Theory</button>
+                <button onclick="startTest('unit3_3_mcq')">Unit 3.3 MCQ</button>
+                <button onclick="startTest('unit3_3_theory')">Unit 3.3 Theory</button>
+                <button onclick="startTest('unit3_4_mcq')">Unit 3.4 MCQ</button>
+                <button onclick="startTest('unit3_4_theory')">Unit 3.4 Theory</button>
+            </div>
+        </section>
+
+        <section id="unit6" class="unit-notes">
+            <h2>Unit 6: Space Physics</h2>
+            <div id="unit6-content">
+                <h4>6.1 Earth and the Solar System</h4>
+                <ul>
+                    <li><b>Motion of the Earth:</b>
+                        <ul>
+                            <li>Rotates on its axis once every 24 hours (causes day and night). Axis is tilted at $\approx 23.5^\circ$.</li>
+                            <li>Orbits the Sun once every 365 days (causes seasons due to tilt).</li>
+                            <li>Rising and Setting of the Sun: Earth's rotation causes the Sun to appear to move east to west daily.</li>
+                        </ul>
+                    </li>
+                    <li><b>Motion of the Moon:</b>
+                        <ul>
+                            <li>Satellite of Earth, orbiting approximately every month. Average distance $\approx 400,000 \text{ km}$.</li>
+                            <li>Revolves on its axis, always showing the same side to Earth.</li>
+                            <li>Reflects sunlight, has no atmosphere, weaker gravitational field (one-sixth of Earth).</li>
+                            <li>Phases of the Moon: Moon's appearance changes during its monthly orbit (New Moon, Crescent, First Quarter, Full Moon, Waning phases, Last Quarter, Old Crescent).</li>
+                        </ul>
+                    </li>
+                    <li><b>Eclipses:</b>
+                        <ul>
+                            <li>Solar Eclipse: Moon is between Sun and Earth (Moon blocks Sun).</li>
+                            <li>Lunar Eclipse: Earth is between Sun and Moon (Earth blocks Sun's light from Moon).</li>
+                        </ul>
+                    </li>
+                    <li><b>Orbital speed:</b>
+                        <ul>
+                            <li>Formula: <div class="formula">$$v=\frac{2\pi r}{T}$$</div>
+                                <ul>
+                                    <li>$v$: average orbital speed (m/s)</li>
+                                    <li>$r$: average radius of the orbit (m)</li>
+                                    <li>$T$: orbital period (time for one orbit) (s)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><b>The Solar System:</b>
+                        <ul>
+                            <li>Consists of the Sun (a star), eight planets, dwarf planets, moons, asteroids, comets, and natural satellites.</li>
+                            <li>Inner Planets (Terrestrial): Mercury, Venus, Earth, Mars. Small, similar size, solid and rocky with layered structures, high density. Formed close to the Sun where it was too hot for gases to condense.</li>
+                            <li>Outer Planets (Gas/Ice Giants): Jupiter, Saturn, Uranus, Neptune. Much larger and colder, mainly consist of gases, low density, many moons and rings. Formed in cooler regions where gases could condense.</li>
+                            <li>Asteroids: Pieces of rock of various sizes, mostly between Mars and Jupiter. Orbit the Sun.</li>
+                            <li>Comets: Dust embedded in ice (water and methane). Orbit the Sun in highly elliptical paths. Develop a bright long tail when approaching the Sun due to radiation pressure.</li>
+                        </ul>
+                    </li>
+                    <li><b>Elliptical Orbits:</b>
+                        <ul>
+                            <li>Planets, dwarf planets, and comets orbit the Sun in an ellipse, with the Sun at one focus. Comets have highly elliptical orbits.</li>
+                            <li>Conservation of Energy: In an elliptical orbit, total energy (KE + GPE) is conserved.
+                                <ul>
+                                    <li>When closer to the Sun: GPE decreases, KE increases, so speed increases.</li>
+                                    <li>When further from the Sun: GPE increases, KE decreases, so speed decreases.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><b>Origin of the Solar System (Nebula Theory):</b> Formed $\approx 4.5$ billion years ago from gravitational attraction pulling together clouds of hydrogen gas and dust (nebulae). Planets formed from the disc of matter left over from the nebula that formed the Sun.</li>
+                    <li><b>Light-Year:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> The distance light travels in a vacuum in one year.</li>
+                            <li>Unit of distance, not time.</li>
+                            <li>$1 \text{ light-year} \approx 9.5 \times 10^{12} \text{ km} = 9.5 \times 10^{15} \text{ m}$.</li>
+                            <li>Light from the Sun takes approximately 8.33 minutes to reach Earth.</li>
+                        </ul>
+                    </li>
+                    <li><b>Gravitational Field Strength ($g$):</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> The force of gravity acting per unit mass.</li>
+                            <li>Formula: <div class="formula">$$g=\frac{W}{m}$$</div>
+                                <ul>
+                                    <li>$g$: gravitational field strength (N/kg or m/s$^2$)</li>
+                                    <li>$W$: weight (N)</li>
+                                    <li>$m$: mass (kg)</li>
+                                </ul>
+                            </li>
+                            <li>Varies with mass and radius of the celestial body.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4>6.2 Stars and the Universe</h4>
+                <ul>
+                    <li><b>The Sun as a Star:</b>
+                        <ul>
+                            <li>A medium-sized star, primarily composed of hydrogen and helium.</li>
+                            <li>Emits energy in the infrared, visible, and ultraviolet regions of the electromagnetic spectrum.</li>
+                            <li>Source of Energy: Energy from nuclear fusion in its core (hydrogen nuclei fuse to form helium, releasing vast amounts of energy).</li>
+                        </ul>
+                    </li>
+                    <li><b>Scale of the Universe:</b> Vast distances measured in light-years.</li>
+                    <li><b>Galaxies:</b> Large collections of stars, gas, and dust (e.g., Milky Way, $\approx 100,000$ light-years in diameter, $\approx 800$ billion stars).</li>
+                    <li><b>Origin and Life Cycle of Stars:</b>
+                        <ul>
+                            <li>Formation:
+                                <ul>
+                                    <li>Nebula: Interstellar clouds of dust and gas collapse under gravitational attraction.</li>
+                                    <li>Protostar: Mass increases and core temperature rises.</li>
+                                    <li>Main Sequence Star: Hydrogen fuses into helium when the core is hot enough. Stable phase where forces of gravity inward balance with thermal pressure outward. Lasts up to 10 billion years for Sun-like stars.</li>
+                                </ul>
+                            </li>
+                            <li>Life Cycle (depending on initial mass):
+                                <ul>
+                                    <li>Low Mass Stars (e.g., Sun): Nebula $\rightarrow$ Protostar $\rightarrow$ Main Sequence Star $\rightarrow$ Red Giant (hydrogen depletes, core collapses, outer layers expand and cool; helium fuses into carbon) $\rightarrow$ White Dwarf (core collapses after helium used, outer layers expelled as planetary nebula) $\rightarrow$ Black Dwarf (white dwarf cools).</li>
+                                    <li>High Mass Stars (more than 8 times the Sun’s mass): Nebula $\rightarrow$ Protostar $\rightarrow$ Main Sequence Star (shorter stable phase) $\rightarrow$ Red Supergiant (core collapses after helium fusion; fusion of carbon into heavier elements until iron forms) $\rightarrow$ Supernova explosion (releases energy and heavy elements) $\rightarrow$ Neutron Star (dense core, may act as a pulsar) OR Black Hole (extremely dense core with gravity so strong light cannot escape).</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><b>Galactic Redshift:</b>
+                        <ul>
+                            <li><span class="definition">Definition:</span> The observed increase in the wavelength of light from distant galaxies, shifting it towards the red end of the spectrum.</li>
+                            <li>Cause: The galaxies are moving away from us (Doppler effect).</li>
+                            <li>Evidence for Expanding Universe: The greater the redshift, the faster the galaxy is moving away, and the further away it is.</li>
+                        </ul>
+                    </li>
+                    <li><b>Hubble's Law:</b> Relates the recession velocity of a galaxy to its distance from Earth.
+                        <div class="formula">$$v=H_0d$$</div>
+                        <ul>
+                            <li>$v$: recession velocity (km/s)</li>
+                            <li>$H_0$: Hubble constant (km/s/Mpc), measures the rate of the Universe's expansion.</li>
+                            <li>$d$: distance (Mpc)</li>
+                        </ul>
+                        The gradient of a velocity-distance graph gives the Hubble constant.
+                    </li>
+                    <li><b>The Big Bang Theory:</b>
+                        <ul>
+                            <li>Core Idea: The Universe originated from an extremely hot and dense state around 14 billion years ago and has been expanding and cooling ever since.</li>
+                            <li>Evidence:
+                                <ul>
+                                    <li>Redshift of distant galaxies: Indicates the Universe is expanding.</li>
+                                    <li>Cosmic Microwave Background (CMB) Radiation: Faint radiation detected from all directions in space, considered the "afterglow" of the Big Bang.</li>
+                                </ul>
+                            </li>
+                            <li>Age of the Universe: Estimated to be approximately 14 billion years, derived from Hubble's Law.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="test-options">
+                <button onclick="startTest('unit6_1_mcq')">Unit 6.1 MCQ</button>
+                <button onclick="startTest('unit6_1_theory')">Unit 6.1 Theory</button>
+                <button onclick="startTest('unit6_2_mcq')">Unit 6.2 MCQ</button>
+                <button onclick="startTest('unit6_2_theory')">Unit 6.2 Theory</button>
+            </div>
+        </section>
+
+        <div id="testModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="testTitle" class="text-xl font-semibold">Test</h3>
+                    <span class="close-button" onclick="closeTestModal()">&times;</span>
+                </div>
+                <div class="modal-body" id="testQuestionsContainer">
+                    </div>
+                <div class="modal-footer">
+                    <button id="submitTestButton" onclick="submitTest()">Submit Test</button>
+                </div>
+                <div id="testResultsContainer" class="modal-body">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggleInput = document.getElementById('darkModeToggleInput');
+        const body = document.body;
+
+        // Apply saved dark mode preference on load
+        if (localStorage.getItem('darkMode') === 'true') {
+            body.classList.add('dark-mode');
+            darkModeToggleInput.checked = true;
+        }
+
+        darkModeToggleInput.addEventListener('change', () => {
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', darkModeToggleInput.checked);
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    // Adding a slight offset to account for the sticky header
+                    const headerOffset = document.querySelector('.header').offsetHeight + 20;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    
+                    window.scrollTo({
+                         top: offsetPosition,
+                         behavior: "smooth"
+                    });
+                }
+            });
+        });
+
+        const tests = {
+            // Unit 1.1
+            unit1_1_mcq: {
+                title: "Unit 1.1 MCQ: Physical quantities & measurement techniques",
+                type: "mcq",
+                questions: [
+                    { question: "Five identical coins are placed in a straight line between two blocks on a ruler. The left edge of the first coin aligns with the 3.0 cm mark on the ruler, and the right edge of the last coin aligns with the 13.5 cm mark. What is the diameter of a single coin?", options: ["2.7 cm", "2.1 cm", "2.0 cm", "2.5 cm"], answer: "2.1 cm", explanation: "Total length = 13.5 cm - 3.0 cm = 10.5 cm. Diameter = 10.5 cm / 5 = 2.1 cm." },
+                    { question: "Which of the following is a derived quantity?", options: ["Mass", "Time", "Length", "Area"], answer: "Area", explanation: "Area is derived from length (length × width). Mass, time, and length are fundamental quantities." },
+                    { question: "Which instrument is most suitable for measuring the internal diameter of a test tube accurately?", options: ["Metre rule", "Measuring tape", "Vernier caliper", "Micrometer screw gauge"], answer: "Vernier caliper", explanation: "Vernier calipers are designed for precise internal and external dimension measurements." },
+                    { question: "A student measures the period of a pendulum by timing 20 oscillations. The total time recorded is 25.0 seconds. What is the period of one oscillation?", options: ["0.80 s", "1.25 s", "25.0 s", "500 s"], answer: "1.25 s", explanation: "Period = Total time / Number of oscillations = 25.0 s / 20 = 1.25 s." },
+                    { question: "Which of the following is a scalar quantity?", options: ["Force", "Velocity", "Displacement", "Energy"], answer: "Energy", explanation: "Energy has magnitude only. Force, velocity, and displacement have both magnitude and direction." }
+                ]
+            },
+            unit1_1_theory: {
+                title: "Unit 1.1 Theory: Physical quantities & measurement techniques",
+                type: "theory",
+                questions: [
+                    { question: "(a) Define a scalar quantity and a vector quantity, providing two examples for each. (b) A student measures the length of a wooden dowel by rolling it along a ruler. She puts a mark on the dowel, then rolls it three full times, starting the mark at 2.0 cm and ending at 38.0 cm on the ruler. Calculate the circumference of the dowel.", keywords: ["scalar", "magnitude", "vector", "direction", "speed", "mass", "velocity", "force", "36.0 cm", "12.0 cm"], answer_guideline: "Scalar: magnitude only (e.g., speed, mass). Vector: magnitude and direction (e.g., velocity, force). (b) Total distance = 38.0 - 2.0 = 36.0 cm. Circumference = 36.0 cm / 3 = 12.0 cm." },
+                    { question: "Describe how to measure the volume of an irregularly shaped object using the displacement method. Include any necessary apparatus.", keywords: ["measuring cylinder", "water", "initial volume", "submerge", "final volume", "difference", "V2-V1"], answer_guideline: "1. Fill measuring cylinder with water (V1). 2. Submerge object. 3. Read new volume (V2). 4. Volume of object = V2 - V1. Apparatus: Measuring cylinder, water, object." },
+                    { question: "Explain the difference between precision and accuracy in measurements.", keywords: ["precision", "close measurements", "consistency", "accuracy", "true value", "accepted value"], answer_guideline: "Precision: how close multiple measurements are to each other (consistency). Accuracy: how close a measurement is to the true value." },
+                    { question: "A student uses a stopwatch to time a race. She starts the stopwatch when the gun fires and stops it when the first runner crosses the finish line. (a) Identify two possible sources of error in this measurement. (b) Suggest how each of these errors could be minimized.", keywords: ["reaction time", "parallax error", "light gate", "electronic timing", "eye level"], answer_guideline: "(a) Reaction time, parallax error. (b) Minimize reaction time: use electronic timing/light gate or average multiple timers. Minimize parallax: read at eye level." },
+                    { question: "Convert the following quantities to the specified units, showing your working: (a) 0.05 km to cm (b) 72 km/h to m/s", keywords: ["km to m", "m to cm", "km/h to m/s", "1000", "100", "3600"], answer_guideline: "(a) 0.05 km = 50 m = 5000 cm. (b) 72 km/h = 72000m / 3600s = 20 m/s." }
+                ]
+            },
+            // Unit 1.2
+            unit1_2_mcq: {
+                title: "Unit 1.2 MCQ: Motion",
+                type: "mcq",
+                questions: [
+                    { question: "A car starts from rest and accelerates uniformly. Its speed-time graph shows a straight line from the origin to a point where the speed is 20 m/s at a time of 5 seconds. What is the acceleration of the car during this time?", options: ["25 m/s²", "4 m/s²", "0.25 m/s²", "100 m/s²"], answer: "4 m/s²", explanation: "Acceleration a = (v-u)/t = (20-0)/5 = 4 m/s²." },
+                    { question: "A ball is dropped from a height. Ignoring air resistance, what happens to its acceleration as it falls?", options: ["It increases steadily.", "It decreases steadily.", "It remains constant.", "It becomes zero at terminal velocity."], answer: "It remains constant.", explanation: "Ignoring air resistance, acceleration is constant (g)." },
+                    { question: "Which of the following statements about speed and velocity is correct?", options: ["Speed is a vector quantity, and velocity is a scalar quantity.", "Both speed and velocity are scalar quantities.", "Speed is a scalar quantity, and velocity is a vector quantity.", "Both speed and velocity are vector quantities."], answer: "Speed is a scalar quantity, and velocity is a vector quantity.", explanation: "Speed is scalar (magnitude only), velocity is vector (magnitude and direction)." },
+                    { question: "A cyclist travels 100 m in 20 s. What is the average speed of the cyclist?", options: ["0.2 m/s", "5 m/s", "20 m/s", "2000 m/s"], answer: "5 m/s", explanation: "Speed = Distance/Time = 100m / 20s = 5 m/s." },
+                    { question: "Which of the following graphs represents an object moving with constant negative acceleration?", options: ["A speed-time graph with a straight line sloping upwards.", "A speed-time graph with a straight line sloping downwards.", "A distance-time graph with a straight line sloping upwards.", "A distance-time graph with a curved line, increasing gradient."], answer: "A speed-time graph with a straight line sloping downwards.", explanation: "Constant negative acceleration (deceleration) is a straight line sloping downwards on a speed-time graph." }
+                ]
+            },
+            unit1_2_theory: {
+                title: "Unit 1.2 Theory: Motion",
+                type: "theory",
+                questions: [
+                    { question: "Explain the concept of terminal velocity for a falling object, making reference to the forces acting on it.", keywords: ["air resistance", "drag", "weight", "increases with speed", "resultant force zero", "constant speed"], answer_guideline: "As object falls, speed increases, air resistance increases. Eventually, air resistance equals weight. Resultant force is zero, so no acceleration, object falls at constant terminal velocity." },
+                    { question: "A car accelerates uniformly from rest to a speed of 20 m/s in 8 seconds. It then travels at this constant speed for 12 seconds, before decelerating uniformly to rest in 5 seconds. (a) Sketch a speed-time graph for the car's journey. Label the axes and key values. (b) Calculate the total distance traveled by the car.", keywords: ["speed-time graph", "triangle", "rectangle", "area under graph", "80m", "240m", "50m", "370m"], answer_guideline: "(a) Graph: 0-8s (slope up to 20m/s), 8-20s (horizontal at 20m/s), 20-25s (slope down to 0). (b) Distance = area. Triangle 1: 0.5*8*20=80m. Rectangle: 12*20=240m. Triangle 2: 0.5*5*20=50m. Total = 370m." },
+                    { question: "Define acceleration and state its SI unit. Explain what is meant by uniform acceleration.", keywords: ["rate of change of velocity", "m/s²", "velocity changes", "equal amounts", "equal intervals of time"], answer_guideline: "Acceleration: rate of change of velocity. Unit: m/s². Uniform acceleration: velocity changes by the same amount in equal time intervals." },
+                    { question: "A stone is thrown vertically upwards with an initial velocity of 15 m/s. (a) What is the velocity of the stone at its maximum height? (b) How long does it take for the stone to reach its maximum height? (Take g=10 m/s²)", keywords: ["maximum height", "velocity 0", "v=u+at", "1.5s"], answer_guideline: "(a) 0 m/s. (b) v=u+at => 0 = 15 + (-10)t => t = 1.5s." },
+                    { question: "Distinguish between distance and displacement, and between speed and velocity.", keywords: ["distance", "total path", "scalar", "displacement", "straight-line", "direction", "vector", "speed", "rate of distance", "velocity", "rate of displacement"], answer_guideline: "Distance: total path (scalar). Displacement: straight-line distance with direction (vector). Speed: rate of distance (scalar). Velocity: rate of displacement (vector)." }
+                ]
+            },
+            // Unit 1.3
+            unit1_3_mcq: {
+                title: "Unit 1.3 MCQ: Mass and Weight",
+                type: "mcq",
+                questions: [
+                    { question: "Which of the following statements about mass or weight is true?", options: ["Weight is measured in kilograms.", "Mass is a vector quantity.", "Weight is a gravitational force.", "Mass changes with gravitational field strength."], answer: "Weight is a gravitational force.", explanation: "Weight is the force of gravity on an object. Mass is scalar and constant." },
+                    { question: "An astronaut travels from Earth to the Moon. Which of the following quantities changes?", options: ["The astronaut's mass.", "The astronaut's weight.", "The astronaut's inertia.", "The amount of matter in the astronaut."], answer: "The astronaut's weight.", explanation: "Weight depends on gravitational field strength, which is different on the Moon. Mass remains constant." },
+                    { question: "What is the approximate gravitational field strength on Earth?", options: ["1 N/kg", "5 N/kg", "10 N/kg", "100 N/kg"], answer: "10 N/kg", explanation: "Often approximated as 10 N/kg (actual is ~9.8 N/kg)." },
+                    { question: "A block has a mass of 5 kg. What is its weight on Earth? (Take g=10 N/kg)", options: ["0.5 N", "5 N", "10 N", "50 N"], answer: "50 N", explanation: "W = mg = 5 kg * 10 N/kg = 50 N." },
+                    { question: "Which statement best describes the relationship between mass and inertia?", options: ["Mass is the force that causes inertia.", "Inertia is the gravitational pull on mass.", "Mass is a measure of an object's inertia.", "Inertia is the resistance to weight."], answer: "Mass is a measure of an object's inertia.", explanation: "Inertia is the resistance to change in motion, and mass quantifies this." }
+                ]
+            },
+            unit1_3_theory: {
+                title: "Unit 1.3 Theory: Mass and Weight",
+                type: "theory",
+                questions: [
+                    { question: "Define mass and weight, and state the SI unit for each.", keywords: ["mass", "amount of matter", "inertia", "kg", "kilogram", "weight", "gravitational force", "N", "newton"], answer_guideline: "Mass: amount of matter/inertia (kg). Weight: gravitational force (N)." },
+                    { question: "Explain why an object's mass remains constant while its weight can vary depending on its location in the Universe.", keywords: ["mass", "intrinsic", "amount of matter", "constant", "weight", "force", "gravity", "gravitational field strength", "varies"], answer_guideline: "Mass is amount of matter (constant). Weight is force of gravity, depends on gravitational field strength which varies with location." },
+                    { question: "A block has a mass of 20 kg. (a) Calculate its weight on Earth, where the gravitational field strength is 10 N/kg. (b) If the same block is taken to the Moon, where the gravitational field strength is 1.6 N/kg, what is its mass and weight on the Moon?", keywords: ["W=mg", "200N", "mass constant", "32N"], answer_guideline: "(a) Weight_Earth = 20kg * 10N/kg = 200N. (b) Mass_Moon = 20kg. Weight_Moon = 20kg * 1.6N/kg = 32N." },
+                    { question: "Describe a simple experiment to determine the mass of an object using a beam balance (or digital balance).", keywords: ["beam balance", "digital balance", "object on pan", "standard masses", "balanced", "reading"], answer_guideline: "Place object on pan. Beam balance: add standard masses to other pan until balanced. Digital balance: read display." },
+                    { question: "Explain how the concept of inertia relates to why it is difficult to stop a heavy object once it is moving.", keywords: ["inertia", "resistance to change in motion", "mass measure of inertia", "large mass", "large inertia", "large force needed"], answer_guideline: "Inertia resists change in motion. Heavy object (large mass) has large inertia, so requires large force to stop." }
+                ]
+            },
+             // Unit 1.4
+            unit1_4_mcq: {
+                title: "Unit 1.4 MCQ: Density",
+                type: "mcq",
+                questions: [
+                    { question: "A rectangular block has a mass of 1200 g. Its dimensions are 20 cm (length) × 10 cm (width) × 6 cm (height). It rests on a surface on its largest face. What pressure does the block exert on the surface? (Take g=10 N/kg)", options: ["600 Pa", "1000 Pa", "1200 Pa", "2000 Pa"], answer: "600 Pa", explanation: "Force F = 1.2kg * 10N/kg = 12N. Largest Area A = 20cm * 10cm = 200cm² = 0.02m². Pressure P = F/A = 12N / 0.02m² = 600 Pa." },
+                    { question: "An object has a mass of 200 g and a volume of 50 cm³. What is its density?", options: ["0.25 g/cm³", "4 g/cm³", "100 g/cm³", "10000 g/cm³"], answer: "4 g/cm³", explanation: "Density ρ = m/V = 200g / 50cm³ = 4 g/cm³." },
+                    { question: "Which of the following materials is most likely to float in water (density = 1 g/cm³)?", options: ["Aluminium (density = 2.7 g/cm³)", "Iron (density = 7.8 g/cm³)", "Wood (density = 0.8 g/cm³)", "Glass (density = 2.5 g/cm³)"], answer: "Wood (density = 0.8 g/cm³)", explanation: "Objects float if their density is less than the fluid's density. Wood (0.8 g/cm³) < Water (1 g/cm³)." },
+                    { question: "A measuring cylinder contains 40 cm³ of water. When a small metal object is fully submerged in the water, the reading on the measuring cylinder rises to 65 cm³. If the mass of the metal object is 175 g, what is its density?", options: ["2.69 g/cm³", "4.38 g/cm³", "7.0 g/cm³", "1.75 g/cm³"], answer: "7.0 g/cm³", explanation: "Volume of object = 65cm³ - 40cm³ = 25cm³. Density ρ = m/V = 175g / 25cm³ = 7.0 g/cm³." },
+                    { question: "Why does a hot air balloon float in air?", options: ["The hot air inside the balloon is more dense than the surrounding cooler air.", "The hot air inside the balloon is less dense than the surrounding cooler air.", "The hot air balloon has a large volume, so it displaces a lot of air.", "The hot air inside the balloon creates an upward force."], answer: "The hot air inside the balloon is less dense than the surrounding cooler air.", explanation: "Hot air is less dense than cool air, causing an upthrust greater than the balloon's weight." }
+                ]
+            },
+            unit1_4_theory: {
+                title: "Unit 1.4 Theory: Density",
+                type: "theory",
+                questions: [
+                    { question: "(a) Define density and state its standard SI unit. (b) A student uses a measuring cylinder and a digital balance to find the density of an irregularly shaped stone. (i) Describe the steps the student would take to find the mass of the stone. (ii) Describe the steps the student would take to find the volume of the stone using the displacement method.", keywords: ["density", "mass per unit volume", "kg/m³", "digital balance", "measuring cylinder", "displacement", "initial volume", "final volume"], answer_guideline: "(a) Density: mass per unit volume (kg/m³). (b)(i) Place stone on balance, read mass. (ii) Add water to cylinder (V1), submerge stone, read new volume (V2). Volume_stone = V2-V1." },
+                    { question: "A solid metal cylinder has a diameter of 4.0 cm and a height of 10.0 cm. Its mass is 1.1 kg. (a) Calculate the volume of the cylinder in cm³. (Take π=3.14) (b) Calculate the density of the metal in g/cm³. (c) Convert the density to kg/m³.", keywords: ["volume cylinder", "πr²h", "125.6 cm³", "density", "m/V", "8.76 g/cm³", "8760 kg/m³"], answer_guideline: "(a) r=2cm. V = π(2²)(10) = 125.6 cm³. (b) m=1100g. ρ = 1100g / 125.6cm³ ≈ 8.76 g/cm³. (c) 8.76 g/cm³ * 1000 = 8760 kg/m³." },
+                    { question: "Explain why a ship made of steel can float on water, even though steel is much denser than water.", keywords: ["average density", "encloses air", "large volume", "less than water density", "buoyant force"], answer_guideline: "Ship's overall average density (steel + large volume of enclosed air) is less than water's density, so it floats." },
+                    { question: "Describe how you would determine the density of a liquid in the laboratory. State the apparatus required.", keywords: ["mass empty cylinder", "volume of liquid", "mass cylinder with liquid", "mass of liquid", "density formula"], answer_guideline: "1. Mass empty cylinder (m1). 2. Add known volume of liquid (V) to cylinder. 3. Mass cylinder + liquid (m2). 4. Mass_liquid = m2-m1. 5. ρ = Mass_liquid / V. Apparatus: balance, measuring cylinder." },
+                    { question: "A block of wood has a density of 0.6 g/cm³. If its mass is 300 g, calculate its volume. If this block is placed in water, will it float or sink? Justify your answer.", keywords: ["V=m/ρ", "500 cm³", "float", "density less than water"], answer_guideline: "V = 300g / 0.6g/cm³ = 500 cm³. It will float because its density (0.6 g/cm³) is less than water's density (1.0 g/cm³)." }
+                ]
+            },
+            // Unit 1.5
+            unit1_5_mcq: {
+                title: "Unit 1.5 MCQ: Forces",
+                type: "mcq",
+                questions: [
+                    { question: "Which of the following is the correct definition of a moment?", options: ["The force acting on an object.", "The turning effect of a force about a pivot.", "The product of mass and velocity.", "The rate of change of displacement."], answer: "The turning effect of a force about a pivot.", explanation: "A moment is the turning effect of a force." },
+                    { question: "For an object to be in equilibrium, which two conditions must be met?", options: ["No resultant force and no resultant moment.", "Resultant force is maximum and resultant moment is zero.", "Resultant force is zero and resultant moment is maximum.", "Resultant force is zero, but resultant moment can be non-zero."], answer: "No resultant force and no resultant moment.", explanation: "Equilibrium requires zero resultant force and zero resultant moment." },
+                    { question: "A uniform beam of length 2.0 m has a weight of 50 N. It is pivoted at its center. A 20 N weight is placed 0.5 m from the pivot on one side. Where must a 40 N weight be placed on the other side to keep the beam in equilibrium?", options: ["0.25 m from the pivot", "0.50 m from the pivot", "0.75 m from the pivot", "1.00 m from the pivot"], answer: "0.25 m from the pivot", explanation: "Clockwise moment = Anticlockwise moment. 20N * 0.5m = 40N * d => 10 Nm = 40N * d => d = 10/40 = 0.25m." },
+                    { question: "Where is the centre of gravity of a uniform rectangular block located?", options: ["At one of its corners.", "At the midpoint of one of its sides.", "At the intersection of its diagonals.", "Outside the block."], answer: "At the intersection of its diagonals.", explanation: "For a uniform rectangular block, the C.G. is at its geometric center." },
+                    { question: "A spanner is used to loosen a nut. The force applied is 10 N at a perpendicular distance of 0.2 m from the nut. What is the moment produced?", options: ["0.02 Nm", "2 Nm", "20 Nm", "50 Nm"], answer: "2 Nm", explanation: "Moment = Force * perpendicular distance = 10N * 0.2m = 2 Nm." }
+                ]
+            },
+            unit1_5_theory: {
+                title: "Unit 1.5 Theory: Forces",
+                type: "theory",
+                questions: [
+                    { question: "(a) Define the term 'centre of gravity'.(b) Describe an experiment to find the centre of gravity of an irregular lamina (flat sheet). You may include a diagram in your answer.", keywords: ["centre of gravity", "point", "entire weight", "irregular lamina", "suspend", "plumb line", "intersection"], answer_guideline: "(a) C.G. is the point where the entire weight of an object appears to act. (b) Suspend lamina from a point, hang plumb line from same point, mark line. Repeat from another point. Intersection of lines is C.G." },
+                    { question: "(a) State Newton's First Law of Motion. (b) A car of mass 1200 kg is moving at a constant velocity of 20 m/s. The engine then applies a forward force of 1500 N, and the total resistive forces (friction and air resistance) acting on the car are 300 N. (i) Calculate the resultant force acting on the car. (ii) Calculate the acceleration of the car.", keywords: ["Newton's First Law", "rest", "constant velocity", "resultant force", "1200N", "F=ma", "1.0 m/s²"], answer_guideline: "(a) Object at rest stays at rest, object in motion stays in motion with constant velocity, unless acted on by resultant force. (b)(i) Resultant F = 1500N - 300N = 1200N. (ii) a = F/m = 1200N / 1200kg = 1.0 m/s²." },
+                    { question: "A uniform plank of length 3.0 m and weight 150 N is supported at its ends by two vertical forces, P and Q. A load of 200 N is placed 1.0 m from end P. (a) Draw a diagram of the plank, showing all the forces acting on it. (b) By taking moments about end Q, calculate the magnitude of force P. (c) Calculate the magnitude of force Q.", keywords: ["diagram", "forces", "moments about Q", "P*3.0", "150*1.5", "200*2.0", "P=208.33N", "upward forces = downward forces", "Q=141.67N"], answer_guideline: "(a) Diagram: Plank, P up at left, Q up at right, 150N down at 1.5m, 200N down at 1m from P (2m from Q). (b) Moments about Q: P*3.0 = (150N * 1.5m) + (200N * 2.0m) => 3P = 225 + 400 = 625 => P ≈ 208.33N. (c) P+Q = 150+200 => 208.33+Q = 350 => Q ≈ 141.67N." },
+                    { question: "(a) State the principle of moments. (b) Explain how the principle of moments is applied to a seesaw that is in equilibrium. (c) A seesaw is in equilibrium. A child of mass 30 kg sits 2.5 m from the pivot. Where must a child of mass 50 kg sit to maintain equilibrium? (Take g = 10 N/kg).", keywords: ["principle of moments", "equilibrium", "clockwise moments", "anticlockwise moments", "seesaw", "F1d1=F2d2", "1.5m"], answer_guideline: "(a) For equilibrium, sum of clockwise moments = sum of anticlockwise moments about any point. (b) Child 1's weight x distance = Child 2's weight x distance. (c) (30kg*10N/kg)*2.5m = (50kg*10N/kg)*d => 750 = 500d => d = 1.5m." },
+                    { question: "(a) Explain what is meant by a 'stable' equilibrium. (b) Give an example of an object in stable equilibrium and explain why it is stable. (c) Describe the difference between stable, unstable, and neutral equilibrium.", keywords: ["stable equilibrium", "returns to original position", "displaced", "low C.G.", "wide base", "cone on base", "unstable", "topples", "neutral", "new position"], answer_guideline: "(a) Stable: returns to original position after small displacement. (b) Cone on its base: C.G. rises when tilted, then falls back. (c) Unstable: topples further if displaced (e.g. cone on tip). Neutral: stays in new position if displaced (e.g. ball on flat surface)." }
+                ]
+            },
+            // Unit 1.6
+            unit1_6_mcq: {
+                title: "Unit 1.6 MCQ: Momentum",
+                type: "mcq",
+                questions: [
+                    { question: "Which of these is the correct definition for momentum and its unit?", options: ["Momentum (p) = mass (m) × velocity (v); Unit: N/m", "Momentum (p) = mass (m) ÷ velocity (v); Unit: kg m/s", "Momentum (p) = mass (m) × velocity (v); Unit: kg m/s", "Momentum (p) = force (F) × time (t); Unit: N s"], answer: "Momentum (p) = mass (m) × velocity (v); Unit: kg m/s", explanation: "p=mv, unit is kg m/s." },
+                    { question: "A 2 kg object is moving at a velocity of 5 m/s. What is its momentum?", options: ["0.4 kg m/s", "2.5 kg m/s", "10 kg m/s", "20 kg m/s"], answer: "10 kg m/s", explanation: "p = mv = 2kg * 5m/s = 10 kg m/s." },
+                    { question: "Which of the following terms is equivalent to the change in an object's momentum?", options: ["Force", "Impulse", "Power", "Energy"], answer: "Impulse", explanation: "Impulse = change in momentum (FΔt = Δp)." },
+                    { question: "In a collision, a 10 kg trolley moving at 2 m/s collides with a stationary 5 kg trolley. After the collision, the 10 kg trolley moves at 0.5 m/s in the same direction. What is the velocity of the 5 kg trolley after the collision, assuming the system is closed?", options: ["1.0 m/s", "2.0 m/s", "3.0 m/s", "4.0 m/s"], answer: "3.0 m/s", explanation: "Initial p = 10*2 + 5*0 = 20. Final p = 10*0.5 + 5*v = 5 + 5v. Conservation: 20 = 5 + 5v => 15 = 5v => v = 3.0 m/s." },
+                    { question: "A force of 100 N acts on an object for 0.5 seconds. What is the impulse provided to the object?", options: ["50 Ns", "100 Ns", "150 Ns", "200 Ns"], answer: "50 Ns", explanation: "Impulse = FΔt = 100N * 0.5s = 50 Ns." }
+                ]
+            },
+            unit1_6_theory: {
+                title: "Unit 1.6 Theory: Momentum",
+                type: "theory",
+                questions: [
+                    { question: "(a) State the principle of conservation of momentum. (b) Explain what is meant by a 'closed system' in the context of conservation of momentum. (c) A car of mass 1200 kg travelling at 15 m/s collides head-on with a stationary lorry of mass 8000 kg. If they stick together after the collision, calculate their common velocity immediately after impact.", keywords: ["conservation of momentum", "total momentum constant", "closed system", "no external forces", "m1u1+m2u2=(m1+m2)v", "1.96 m/s"], answer_guideline: "(a) Total momentum of a closed system is constant if no external forces act. (b) Closed system: no external forces acting. (c) (1200*15)+(8000*0) = (1200+8000)v => 18000 = 9200v => v ≈ 1.96 m/s." },
+                    { question: "(a) Define impulse and state its unit. (b) Explain the relationship between impulse and the change in momentum. (c) A ball of mass 0.5 kg is hit by a bat. Its velocity changes from 10 m/s to -15 m/s (in the opposite direction). Calculate the impulse imparted to the ball.", keywords: ["impulse", "change in momentum", "FΔt", "Ns", "Δp", "-12.5 Ns"], answer_guideline: "(a) Impulse: product of force and time for which it acts (Ns) OR change in momentum. (b) Impulse = FΔt = Δp. (c) Δp = m(vf-vi) = 0.5kg*(-15m/s - 10m/s) = 0.5*(-25) = -12.5 Ns." },
+                    { question: "(a) State the equation for momentum, including its symbols and units. (b) Without calculation, state the momentum of an object at rest and explain your answer. (c) Explain why a large force is required to stop a high-mass object moving at a high velocity in a short amount of time. Relate your answer to impulse.", keywords: ["p=mv", "kg m/s", "momentum at rest is zero", "velocity is zero", "large change in momentum", "short time", "large force", "F=Δp/Δt"], answer_guideline: "(a) p=mv (p:momentum kg m/s, m:mass kg, v:velocity m/s). (b) Zero, because velocity is zero. (c) Large mass and high velocity means large momentum. Stopping in short time means large rate of change of momentum (large impulse/time), thus large force." },
+                    { question: "(a) Describe what happens to the total momentum of a system during an explosion. (b) A cannon of mass 500 kg fires a cannonball of mass 5 kg horizontally at a velocity of 100 m/s. Calculate the recoil velocity of the cannon. (c) Explain why the recoil velocity of the cannon is much smaller than the velocity of the cannonball.", keywords: ["total momentum conserved", "zero before", "zero after", "recoil", "-1 m/s", "larger mass cannon"], answer_guideline: "(a) Total momentum is conserved (remains zero if initially at rest). (b) 0 = (5kg*100m/s) + (500kg*v_cannon) => v_cannon = -500/500 = -1 m/s. (c) Cannon has much larger mass, so to conserve momentum, its recoil velocity is smaller." },
+                    { question: "(a) Explain how safety features in cars, such as airbags and crumple zones, work to reduce injury during a collision. Relate your explanation to the concept of impulse. (b) A driver of mass 70 kg is in a car that collides with a wall. The driver's velocity changes from 20 m/s to 0 m/s in 0.1 s without an airbag, and in 0.5 s with an airbag. Calculate the average force experienced by the driver in both scenarios.", keywords: ["airbags", "crumple zones", "increase impact time", "reduce force", "F=Δp/Δt", "14000N", "2800N"], answer_guideline: "(a) They increase the time of impact (Δt). Since Impulse (Δp) is fixed, increasing Δt reduces the average force (F=Δp/Δt). (b) Δp = 70kg*(0-20m/s) = -1400 Ns. Without airbag: F = -1400Ns/0.1s = -14000N. With airbag: F = -1400Ns/0.5s = -2800N." }
+                ]
+            },
+             // Unit 1.7
+            unit1_7_mcq: {
+                title: "Unit 1.7 MCQ: Energy, work and power",
+                type: "mcq",
+                questions: [
+                    { question: "Which of the following is the correct definition of work done?", options: ["The rate at which energy is transferred.", "The force applied over a distance in the direction of the force.", "The energy possessed by an object due to its motion.", "The force required to lift an object against gravity."], answer: "The force applied over adistance in the direction of the force.", explanation: "Work done W = Fd, where d is in direction of F." },
+                    { question: "An object of mass 2 kg is lifted vertically through a height of 3 m. What is the gravitational potential energy gained by the object? (Take g=10 N/kg)", options: ["6 J", "20 J", "30 J", "60 J"], answer: "60 J", explanation: "GPE = mgh = 2kg * 10N/kg * 3m = 60 J." },
+                    { question: "A car engine produces 5000 J of useful energy from 10000 J of input energy. What is the efficiency of the engine?", options: ["20%", "50%", "100%", "200%"], answer: "50%", explanation: "Efficiency = (Useful output / Total input) * 100% = (5000J / 10000J) * 100% = 50%." },
+                    { question: "A crane lifts a 500 kg load to a height of 10 m in 5 seconds. What is the power output of the crane? (Take g=10 N/kg)", options: ["1000 W", "5000 W", "10000 W", "50000 W"], answer: "10000 W", explanation: "Work done W = mgh = 500*10*10 = 50000 J. Power P = W/t = 50000J / 5s = 10000 W." },
+                    { question: "Which of the following is a renewable energy source?", options: ["Coal", "Natural gas", "Solar", "Nuclear"], answer: "Solar", explanation: "Solar energy is replenished naturally. Coal, natural gas, nuclear are non-renewable." }
+                ]
+            },
+            unit1_7_theory: {
+                title: "Unit 1.7 Theory: Energy, work and power",
+                type: "theory",
+                questions: [
+                    { question: "(a) State the principle of conservation of energy. (b) Describe the energy transformations that occur when a ball is thrown vertically upwards and then falls back down.", keywords: ["conservation of energy", "cannot be created or destroyed", "transformed", "kinetic energy", "gravitational potential energy"], answer_guideline: "(a) Energy cannot be created or destroyed, only transformed from one form to another. Total energy in a closed system is constant. (b) Upwards: KE to GPE. At max height: GPE max, KE min. Downwards: GPE to KE. (Air resistance may convert some to heat)." },
+                    { question: "Define power and state its SI unit. A motor lifts a 200 N weight through a height of 5 m in 4 seconds. Calculate the power output of the motor.", keywords: ["power", "rate of work done", "rate of energy transfer", "Watt", "W", "P=W/t", "250W"], answer_guideline: "Power: rate at which work is done or energy is transferred (Watt, W). Work W = Fd = 200N * 5m = 1000J. Power P = W/t = 1000J / 4s = 250W." },
+                    { question: "Explain the concept of efficiency in energy conversion. Give an example of an energy conversion process and discuss its efficiency.", keywords: ["efficiency", "useful energy output", "total energy input", "percentage", "light bulb", "electrical to light and heat"], answer_guideline: "Efficiency = (useful energy output / total energy input) * 100%. Example: Incandescent light bulb converts electrical energy to light (useful) and heat (wasted). Efficiency is low (e.g., 5-10% for light)." },
+                    { question: "A car with a mass of 1500 kg is traveling at a speed of 20 m/s. (a) Calculate the kinetic energy of the car. (b) If the car applies its brakes and comes to a stop, what happens to its kinetic energy?", keywords: ["KE=1/2mv²", "300000J", "300kJ", "converted", "heat", "sound", "friction"], answer_guideline: "(a) KE = 0.5 * 1500kg * (20m/s)² = 300,000 J or 300 kJ. (b) Kinetic energy is converted into heat and sound energy due to friction in brakes and tires." },
+                    { question: "Describe the main energy transformations that occur in a hydroelectric power station from the stored water to electricity generation.", keywords: ["gravitational potential energy", "dam", "kinetic energy", "water flow", "mechanical energy", "turbine", "electrical energy", "generator"], answer_guideline: "GPE of stored water -> KE of flowing water -> Mechanical energy of rotating turbine -> Electrical energy from generator." }
+                ]
+            },
+            // Unit 1.8
+            unit1_8_mcq: {
+                title: "Unit 1.8 MCQ: Pressure",
+                type: "mcq",
+                questions: [
+                    { question: "A rectangular block has a mass of 1200 g. Its dimensions are 20 cm (length) × 10 cm (width) × 6 cm (height). It rests on a surface on its largest face. What pressure does the block exert on the surface? (Take g=10 N/kg)", options: ["600 Pa", "1000 Pa", "1200 Pa", "2000 Pa"], answer: "600 Pa", explanation: "Force F = 1.2kg * 10N/kg = 12N. Largest Area A = 20cm * 10cm = 200cm² = 0.02m². Pressure P = F/A = 12N / 0.02m² = 600 Pa." },
+                    { question: "A force of 50 N is applied uniformly over an area of 0.2 m². What is the pressure exerted?", options: ["10 Pa", "25 Pa", "100 Pa", "250 Pa"], answer: "250 Pa", explanation: "Pressure P = F/A = 50N / 0.2m² = 250 Pa." },
+                    { question: "Why do snowshoes allow a person to walk on snow without sinking deeply?", options: ["They increase the force exerted on the snow.", "They decrease the pressure exerted on the snow.", "They increase the person's weight.", "They decrease the person's density."], answer: "They decrease the pressure exerted on the snow.", explanation: "Snowshoes increase area, reducing pressure (P=F/A) for the same weight." },
+                    { question: "Which of the following statements about pressure in liquids is true?", options: ["Pressure in a liquid acts only downwards.", "Pressure in a liquid increases with depth.", "Pressure in a liquid is independent of the liquid's density.", "Pressure in a liquid is the same at all depths."], answer: "Pressure in a liquid increases with depth.", explanation: "Pressure in a liquid (P=ρgh) increases with depth and density, and acts in all directions." },
+                    { question: "A submarine is designed to withstand high pressures. At a certain depth, the pressure on its hull is 1.5×10⁶ Pa. If the area of a hatch on the submarine is 0.5 m², what is the force exerted on the hatch by the water?", options: ["7.5×10⁴ N", "3.0×10⁵ N", "7.5×10⁵ N", "3.0×10⁶ N"], answer: "7.5×10⁵ N", explanation: "Force F = P*A = 1.5×10⁶ Pa * 0.5 m² = 0.75×10⁶ N = 7.5×10⁵ N." }
+                ]
+            },
+            unit1_8_theory: {
+                title: "Unit 1.8 Theory: Pressure",
+                type: "theory",
+                questions: [
+                    { question: "(a) Define pressure and state its standard SI unit. (b) A box with a weight of 200 N has a base area of 0.5 m². Calculate the pressure it exerts on the ground.", keywords: ["pressure", "force per unit area", "Pascal", "Pa", "N/m²", "P=F/A", "400Pa"], answer_guideline: "(a) Pressure: force per unit area (Pascal, Pa or N/m²). (b) P = 200N / 0.5m² = 400 Pa." },
+                    { question: "Explain why a sharp knife cuts more effectively than a blunt knife.", keywords: ["sharp knife", "small area", "high pressure", "blunt knife", "large area", "low pressure"], answer_guideline: "Sharp knife: small contact area, so for same force, pressure is high. Blunt knife: larger area, lower pressure." },
+                    { question: "A dam is built to hold back a large volume of water. (a) Explain why the pressure exerted by the water increases with depth. (b) Why is the base of a dam built much thicker than its top?", keywords: ["pressure increases with depth", "weight of water column", "P=ρgh", "thicker base", "withstand greater pressure"], answer_guideline: "(a) Pressure increases with depth due to greater weight of water column above (P=ρgh). (b) Base is thicker to withstand the greater pressure at the bottom." },
+                    { question: "A diver is at a depth of 20 m in fresh water (density = 1000 kg/m³). (a) Calculate the pressure exerted by the water on the diver at this depth. (Take g=10 N/kg) (b) If the atmospheric pressure at the surface is 1.0×10⁵ Pa, what is the total pressure on the diver?", keywords: ["P=ρgh", "200000Pa", "total pressure", "atmospheric pressure", "300000Pa"], answer_guideline: "(a) P_water = 1000 * 10 * 20 = 200,000 Pa. (b) P_total = P_water + P_atm = 200,000 Pa + 1.0×10⁵ Pa = 300,000 Pa." },
+                    { question: "Describe a practical application where low pressure is beneficial and explain why.", keywords: ["low pressure", "vacuum cleaner", "suction cups", "drinking straw"], answer_guideline: "Vacuum cleaner: creates low pressure inside, higher atmospheric pressure outside pushes dirt in. OR Suction cup: pushing out air creates lower pressure inside, atmospheric pressure outside holds it." }
+                ]
+            },
+            // Unit 2.1
+            unit2_1_mcq: {
+                title: "Unit 2.1 MCQ: Kinetic particle model of matter",
+                type: "mcq",
+                questions: [
+                    { question: "Which of the following conditions will cause the rate of evaporation from a liquid surface to increase?", options: ["Decreasing the surface area of the liquid.", "Decreasing the temperature of the liquid.", "Increasing the humidity of the surrounding air.", "Increasing the wind speed over the surface."], answer: "Increasing the wind speed over the surface.", explanation: "Increased wind speed removes evaporated particles, allowing more to escape." },
+                    { question: "Which statement best describes the arrangement of particles in a gas?", options: ["Fixed positions, very close together.", "Random arrangement, close together, sliding past each other.", "Random arrangement, far apart, moving randomly and rapidly.", "Fixed positions, far apart, vibrating."], answer: "Random arrangement, far apart, moving randomly and rapidly.", explanation: "Gas particles are far apart, random, and move rapidly." },
+                    { question: "When a liquid evaporates, why does the remaining liquid cool down?", options: ["The liquid gains energy from the surroundings.", "The fastest-moving particles escape, leaving slower, less energetic particles behind.", "The particles in the liquid stop moving.", "The pressure of the liquid decreases."], answer: "The fastest-moving particles escape, leaving slower, less energetic particles behind.", explanation: "Evaporation is a cooling process as higher energy particles escape, lowering average KE." },
+                    { question: "Which of the following processes involves a decrease in the average kinetic energy of particles?", options: ["Boiling", "Melting", "Condensation", "Sublimation"], answer: "Condensation", explanation: "Condensation (gas to liquid) involves particles losing energy." },
+                    { question: "What happens to the pressure of a fixed mass of gas when its volume is decreased at a constant temperature?", options: ["It decreases.", "It increases.", "It remains constant.", "It first increases then decreases."], answer: "It increases.", explanation: "Boyle's Law: P₁V₁ = P₂V₂. If V decreases, P increases at constant T." }
+                ]
+            },
+            unit2_1_theory: {
+                title: "Unit 2.1 Theory: Kinetic particle model of matter",
+                type: "theory",
+                questions: [
+                    { question: "Describe the arrangement, separation, and motion of particles in a solid, a liquid, and a gas.", keywords: ["solid", "fixed regular", "close", "vibrate", "liquid", "random close", "slide", "gas", "random far apart", "move freely"], answer_guideline: "Solid: fixed regular arrangement, close, vibrate. Liquid: random arrangement, close, slide past each other. Gas: random arrangement, far apart, move freely and rapidly." },
+                    { question: "Explain why the temperature of a substance remains constant during melting, even though thermal energy is continuously supplied.", keywords: ["melting", "constant temperature", "thermal energy", "overcome intermolecular forces", "latent heat of fusion", "potential energy"], answer_guideline: "Energy supplied (latent heat of fusion) is used to break intermolecular bonds and increase potential energy, not kinetic energy, so temperature remains constant." },
+                    { question: "A fixed mass of gas is heated at constant volume. Explain, in terms of the kinetic particle model, what happens to the pressure of the gas.", keywords: ["heated", "constant volume", "particles gain kinetic energy", "move faster", "collide more frequently", "greater force", "pressure increases"], answer_guideline: "Heating increases particles' KE. They move faster, collide with walls more often and with more force. At constant volume, this increases pressure." },
+                    { question: "Describe the process of boiling and distinguish it from evaporation.", keywords: ["boiling", "throughout liquid", "fixed temperature", "boiling point", "bubbles", "evaporation", "surface only", "any temperature below boiling", "cooling"], answer_guideline: "Boiling: throughout liquid, at specific boiling point, bubbles form. Evaporation: at surface only, any temp below boiling point, causes cooling, no bubbles." },
+                    { question: "Explain how increasing the temperature of a liquid affects the rate of evaporation.", keywords: ["increasing temperature", "average kinetic energy increases", "more particles sufficient energy", "overcome intermolecular forces", "escape", "rate of evaporation increases"], answer_guideline: "Higher temp means higher average KE of particles. More particles have enough energy to escape from the surface, increasing evaporation rate." }
+                ]
+            },
+            // Unit 2.2
+            unit2_2_mcq: {
+                title: "Unit 2.2 MCQ: Thermal properties and temperature",
+                type: "mcq",
+                questions: [
+                    { question: "A substance is cooled from a gaseous state. The graph shows its temperature changes over time (typical cooling curve with two plateaus). What is happening in the portion of the graph representing the first constant temperature plateau?", options: ["The gas is cooling.", "The liquid is freezing.", "The gas is condensing.", "The liquid is cooling."], answer: "The gas is condensing.", explanation: "First plateau during cooling from gas is condensation (gas to liquid)." },
+                    { question: "Which of the following best describes the function of a thermometer?", options: ["To measure the amount of heat energy in a substance.", "To measure the average kinetic energy of particles in a substance.", "To measure the total internal energy of a substance.", "To measure the specific heat capacity of a substance."], answer: "To measure the average kinetic energy of particles in a substance.", explanation: "Temperature is a measure of the average KE of particles." },
+                    { question: "What is the specific heat capacity of a substance?", options: ["The amount of heat required to melt 1 kg of the substance.", "The amount of heat required to boil 1 kg of the substance.", "The amount of heat required to raise the temperature of 1 kg of the substance by 1°C.", "The amount of heat released when 1 kg of the substance cools by 1°C."], answer: "The amount of heat required to raise the temperature of 1 kg of the substance by 1°C.", explanation: "Definition of specific heat capacity." },
+                    { question: "A block of metal absorbs 1000 J of energy, and its temperature rises by 5°C. If the mass of the block is 0.2 kg, what is its specific heat capacity?", options: ["100 J/kg°C", "500 J/kg°C", "1000 J/kg°C", "2000 J/kg°C"], answer: "1000 J/kg°C", explanation: "c = ΔE / (mΔθ) = 1000 J / (0.2 kg * 5°C) = 1000 J/kg°C." },
+                    { question: "If the temperature of a gas is increased at constant volume, what happens to the average kinetic energy of its particles?", options: ["It decreases.", "It increases.", "It remains constant.", "It first increases then decreases."], answer: "It increases.", explanation: "Temperature is directly proportional to average KE of particles." }
+                ]
+            },
+            unit2_2_theory: {
+                title: "Unit 2.2 Theory: Thermal properties and temperature",
+                type: "theory",
+                questions: [
+                    { question: "(a) State the relationship between temperature in Kelvin and temperature in degrees Celsius. (b) A fixed mass of gas is kept at a constant temperature. Its initial pressure is 1.5×10⁵ Pa and its initial volume is 0.20 m³. If the volume of the gas is reduced to 0.05 m³, calculate the new pressure.", keywords: ["T(K)=T(°C)+273", "Boyle's Law", "p1V1=p2V2", "6×10⁵ Pa"], answer_guideline: "(a) T(K) = T(°C) + 273. (b) p1V1=p2V2 => (1.5×10⁵ Pa)(0.20m³) = p2(0.05m³) => p2 = 6×10⁵ Pa." },
+                    { question: "(a) Define specific heat capacity. (b) An electric heater supplies 15000 J of energy to a 0.5 kg block of metal, causing its temperature to rise from 20°C to 35°C. Calculate the specific heat capacity of the metal.", keywords: ["specific heat capacity", "energy per unit mass per unit temperature increase", "ΔE=mcΔθ", "2000 J/kg°C"], answer_guideline: "(a) Energy needed to raise temp of 1kg of a substance by 1°C. (b) Δθ=15°C. c = ΔE/(mΔθ) = 15000J / (0.5kg * 15°C) = 2000 J/kg°C." },
+                    { question: "A kettle contains 1.5 kg of water at 20°C. It is heated until the water boils at 100°C. (a) Calculate the energy required to raise the temperature of the water to its boiling point. (Specific heat capacity of water = 4200 J/kg°C) (b) If the kettle has a power rating of 2000 W, how long does it take to heat the water to boiling point, assuming 100% efficiency?", keywords: ["ΔE=mcΔθ", "504000J", "P=E/t", "t=E/P", "252s"], answer_guideline: "(a) Δθ=80°C. ΔE = 1.5kg * 4200J/kg°C * 80°C = 504000 J. (b) t = E/P = 504000J / 2000W = 252 s." }, // Corrected calculation for (a) 1.5*4200*80 = 504000, not 630000. (b) 504000/2000 = 252s
+                    { question: "Explain the difference between heat and temperature.", keywords: ["heat", "thermal energy transferred", "temperature difference", "temperature", "average kinetic energy", "degree of hotness"], answer_guideline: "Heat: thermal energy transferred due to temp difference. Temperature: measure of average KE of particles (degree of hotness)." },
+                    { question: "Describe how a liquid-in-glass thermometer works to measure temperature.", keywords: ["liquid-in-glass", "bulb", "capillary tube", "liquid expands when heated", "contracts when cooled", "calibrated scale"], answer_guideline: "Liquid in bulb expands when heated (gains KE), rises up narrow capillary tube. Level read against calibrated scale." }
+                ]
+            },
+            // Unit 2.3
+            unit2_3_mcq: {
+                title: "Unit 2.3 MCQ: Transfer of thermal energy",
+                type: "mcq",
+                questions: [
+                    { question: "A family wants to keep their picnic food cold in a hamper using ice packs. Where should both ice packs be placed in order to keep the food as cool as possible?", options: ["Both at the top of the hamper.", "One at the top of the hamper and one at the bottom.", "Both at the bottom of the hamper.", "On either side of the hamper."], answer: "Both at the top of the hamper.", explanation: "Cold air is denser and sinks, creating convection currents to cool food below." },
+                    { question: "Which of the following materials is the best conductor of thermal energy?", options: ["Wood", "Air", "Copper", "Plastic"], answer: "Copper", explanation: "Metals like copper are good conductors due to free electrons." },
+                    { question: "How is thermal energy primarily transferred from the Sun to the Earth?", options: ["Conduction", "Convection", "Radiation", "Evaporation"], answer: "Radiation", explanation: "Radiation (EM waves) can travel through vacuum of space." },
+                    { question: "Which of the following is an effective way to reduce heat loss by convection?", options: ["Painting a surface black.", "Using a vacuum flask.", "Trapping air in a material.", "Polishing a surface to make it shiny."], answer: "Trapping air in a material.", explanation: "Trapped air prevents convection currents." },
+                    { question: "A hot object is placed in a vacuum. By which method(s) will it lose thermal energy?", options: ["Conduction only", "Convection only", "Radiation only", "Conduction and convection"], answer: "Radiation only", explanation: "Conduction and convection require a medium; radiation does not." }
+                ]
+            },
+            unit2_3_theory: {
+                title: "Unit 2.3 Theory: Transfer of thermal energy",
+                type: "theory",
+                questions: [
+                    { question: "(a) Explain how thermal energy is transferred by conduction in a metal. (b) Explain why metals are generally better conductors of thermal energy than non-metals.", keywords: ["conduction", "metal", "vibrating particles", "free electrons", "collide", "transfer energy", "non-metals no free electrons"], answer_guideline: "(a) Metal atoms vibrate, pass energy to neighbours. Free electrons also gain KE, move and collide, transferring energy quickly. (b) Metals have free electrons; non-metals don't (or few)." },
+                    { question: "A student sets up an experiment to compare the rate of infrared radiation absorption by different surfaces. They use two identical metal plates, one with a dull black surface and the other with a shiny silver surface, both facing a heater. Small identical wax pellets are attached to the back of each plate. (a) Explain which wax pellet will fall first and why. (b) Suggest one way the student could ensure this experiment is a fair test, besides using identical plates and wax pellets.", keywords: ["dull black good absorber", "shiny silver poor absorber", "melts wax faster", "fair test", "same distance from heater"], answer_guideline: "(a) Wax on dull black plate falls first. Dull black is a better absorber of IR radiation, heats up faster, melts wax sooner. (b) Ensure plates are equidistant from heater." },
+                    { question: "Explain how thermal energy is transferred by convection in a fluid (liquid or gas).", keywords: ["convection", "fluid heated", "expands", "less dense", "rises", "cooler denser fluid sinks", "convection current"], answer_guideline: "Fluid heated, expands, becomes less dense, rises. Cooler, denser fluid sinks to replace it, creating a convection current." },
+                    { question: "Describe the design features of a vacuum flask that help to minimize heat transfer by conduction, convection, and radiation.", keywords: ["vacuum flask", "double-walled", "vacuum", "prevents conduction convection", "silvered surfaces", "reduces radiation"], answer_guideline: "Vacuum between double walls: stops conduction & convection. Silvered surfaces: reflect IR radiation, reducing radiation loss/gain. Stopper: reduces conduction/convection via opening." },
+                    { question: "Explain why a blanket keeps a person warm on a cold night, even though the blanket itself does not generate heat.", keywords: ["blanket", "traps air", "air poor conductor", "insulator", "reduces convection", "reduces heat loss"], answer_guideline: "Blanket traps a layer of air (a good insulator). This reduces heat loss from the body by conduction and convection." }
+                ]
+            },
+            // Unit 3.1
+            unit3_1_mcq: {
+                title: "Unit 3.1 MCQ: General properties of waves",
+                type: "mcq",
+                questions: [
+                    { question: "Which of the following statements correctly describes a longitudinal wave?", options: ["Particles oscillate perpendicular to the direction of energy transfer.", "It can travel through a vacuum.", "It consists of crests and troughs.", "It consists of compressions and rarefactions."], answer: "It consists of compressions and rarefactions.", explanation: "Longitudinal waves have oscillations parallel to energy transfer, creating compressions and rarefactions." },
+                    { question: "A ripple tank experiment is set up to demonstrate wave phenomena. Water waves are observed to spread out as they pass through a narrow gap. This phenomenon is known as:", options: ["Reflection", "Refraction", "Diffraction", "Interference"], answer: "Diffraction", explanation: "Diffraction is the spreading of waves as they pass an obstacle or through a gap." },
+                    { question: "What is the relationship between wave speed (v), frequency (f), and wavelength (λ)?", options: ["v=f+λ", "v=f×λ", "v=f/λ", "v=λ/f"], answer: "v=f×λ", explanation: "The wave equation is v = fλ." },
+                    { question: "Which property of a wave is a measure of the energy it carries?", options: ["Wavelength", "Frequency", "Amplitude", "Period"], answer: "Amplitude", explanation: "Energy of a wave is related to its amplitude (specifically, proportional to amplitude squared)." },
+                    { question: "When a wave reflects off a plane barrier, what happens to its speed, frequency, and wavelength?", options: ["All three properties change.", "Only speed changes.", "Only frequency changes.", "None of the properties change."], answer: "None of the properties change.", explanation: "During reflection, speed, frequency, and wavelength remain unchanged as the medium doesn't change." }
+                ]
+            },
+            unit3_1_theory: {
+                title: "Unit 3.1 Theory: General properties of waves",
+                type: "theory",
+                questions: [
+                    { question: "Define the terms 'wavelength' and 'frequency' as applied to waves, and state their SI units.", keywords: ["wavelength", "distance between crests", "meter", "m", "frequency", "waves per second", "Hertz", "Hz"], answer_guideline: "Wavelength (λ): distance between successive identical points on a wave (m). Frequency (f): number of complete waves passing a point per second (Hz)." },
+                    { question: "Describe how a transverse wave differs from a longitudinal wave. Give one example of each.", keywords: ["transverse", "oscillations perpendicular", "energy transfer", "light", "water waves", "longitudinal", "oscillations parallel", "sound waves"], answer_guideline: "Transverse: oscillations perpendicular to energy transfer (e.g., light). Longitudinal: oscillations parallel to energy transfer (e.g., sound)." },
+                    { question: "State the wave equation and explain what each symbol represents.", keywords: ["v=fλ", "v speed", "f frequency", "λ wavelength"], answer_guideline: "v = fλ. v: wave speed (m/s), f: frequency (Hz), λ: wavelength (m)." },
+                    { question: "Explain the phenomenon of refraction of waves. What conditions must be met for refraction to occur?", keywords: ["refraction", "bending of waves", "change speed", "different medium", "angle to boundary"], answer_guideline: "Refraction: bending of waves when they pass from one medium to another due to change in speed. Conditions: wave enters new medium at an angle, speed of wave changes in new medium." },
+                    { question: "Describe a method to measure the speed of water waves in a ripple tank.", keywords: ["ripple tank", "measure wavelength", "ruler", "measure frequency", "stopwatch", "v=fλ"], answer_guideline: "1. Generate waves. 2. Measure wavelength (λ) using a ruler (e.g., distance over several waves / number of waves). 3. Measure frequency (f) (e.g., count waves passing a point in a set time, or use strobe light matched to vibrator frequency). 4. Calculate speed v = fλ." }
+                ]
+            },
+            // Unit 3.2
+            unit3_2_mcq: {
+                title: "Unit 3.2 MCQ: Light",
+                type: "mcq",
+                questions: [
+                    { question: "A light ray travels from air into a glass block. Which property of the light ray will not change?", options: ["Speed", "Wavelength", "Frequency", "Direction"], answer: "Frequency", explanation: "Frequency of a wave is determined by the source and does not change when the medium changes." },
+                    { question: "Which of the following describes the image formed by a plane mirror?", options: ["Real, inverted, magnified", "Virtual, upright, same size", "Real, upright, diminished", "Virtual, inverted, magnified"], answer: "Virtual, upright, same size", explanation: "Plane mirror images are virtual, upright, same size, and laterally inverted." },
+                    { question: "The critical angle for a material is the angle of incidence in the denser medium for which the angle of refraction in the less dense medium is:", options: ["0°", "45°", "90°", "180°"], answer: "90°", explanation: "Definition of critical angle." },
+                    { question: "White light passes through a prism, splitting into a spectrum of colours. Which colour deviates the most from its original path?", options: ["Red", "Orange", "Green", "Violet"], answer: "Violet", explanation: "Violet light has the shortest wavelength and is refracted (deviated) the most." },
+                    { question: "An object is placed at the principal focus of a converging lens. What type of image is formed?", options: ["Real, inverted, at 2F", "Virtual, upright, same side as object", "No image is formed, rays become parallel", "Real, inverted, at infinity"], answer: "No image is formed, rays become parallel", explanation: "Rays from object at F emerge parallel from a converging lens (image at infinity)." }
+                ]
+            },
+            unit3_2_theory: {
+                title: "Unit 3.2 Theory: Light",
+                type: "theory",
+                questions: [
+                    { question: "(a) Define the term 'refractive index' in relation to light. (b) A light ray travels from air into a transparent material at an angle of incidence of 40°. If the angle of refraction is 25°, calculate the refractive index of the material. (c) Explain why the angle of refraction is smaller than the incident angle when light passes from air into a denser medium.", keywords: ["refractive index", "speed of light ratio", "sin i / sin r", "1.52", "light slows down", "bends towards normal"], answer_guideline: "(a) n = speed of light in vacuum / speed in medium OR n = sin i / sin r. (b) n = sin(40°)/sin(25°) ≈ 0.6428/0.4226 ≈ 1.52. (c) Light slows down in denser medium, causing it to bend towards the normal." },
+                    { question: "(a) State the two laws of reflection. (b) Draw a ray diagram to show how a virtual image is formed by a plane mirror for an object placed in front of it. Clearly label the object, image, incident rays, and reflected rays.", keywords: ["angle of incidence equals angle of reflection", "incident ray reflected ray normal same plane", "plane mirror diagram", "virtual image", "object", "image", "rays"], answer_guideline: "(a) 1. Angle i = Angle r. 2. Incident ray, reflected ray, normal all lie in the same plane. (b) Diagram showing object, mirror, at least two incident rays from object top, reflected rays (obeying laws), extended virtual rays meeting behind mirror to form upright, same size virtual image." },
+                    { question: "(a) Describe what is meant by 'total internal reflection'. (b) State the two conditions necessary for total internal reflection to occur. (c) Give two practical applications of total internal reflection.", keywords: ["total internal reflection", "all light reflected", "denser to less dense", "angle of incidence greater than critical angle", "optical fibres", "periscopes", "binoculars"], answer_guideline: "(a) All light reflected back into denser medium when incident on boundary with less dense medium. (b) 1. Light from denser to less dense medium. 2. Angle of incidence > critical angle. (c) Optical fibres, periscopes." },
+                    { question: "(a) Explain how a converging lens can form a real image. (b) Describe the characteristics of the image formed when an object is placed between F and 2F of a converging lens. (c) Distinguish between a real image and a virtual image.", keywords: ["converging lens", "rays converge", "real image", "projected", "between F and 2F", "real inverted magnified beyond 2F", "virtual image", "rays appear to diverge", "cannot project"], answer_guideline: "(a) Converging lens refracts parallel rays to meet at a focal point; rays from an object converge to form a real image. (b) Image is real, inverted, magnified, and formed beyond 2F. (c) Real image: rays actually meet, can be projected. Virtual image: rays appear to meet, cannot be projected." },
+                    { question: "(a) Explain the phenomenon of dispersion of white light by a prism. (b) State the order of colours in the spectrum of white light from longest wavelength to shortest wavelength. (c) Explain why different colours of light refract at different angles when passing through a prism.", keywords: ["dispersion", "splitting white light", "prism", "spectrum", "ROYGBIV", "different wavelengths", "different refractive indices", "violet refracts most", "red refracts least"], answer_guideline: "(a) Splitting of white light into its constituent colours by a prism. (b) Red, Orange, Yellow, Green, Blue, Indigo, Violet. (c) Different colours (wavelengths) of light travel at slightly different speeds in glass, so have different refractive indices and bend by different amounts. Violet bends most, red least." }
+                ]
+            },
+            // Unit 3.3
+            unit3_3_mcq: {
+                title: "Unit 3.3 MCQ: Electromagnetic spectrum",
+                type: "mcq",
+                questions: [
+                    { question: "Which part of the electromagnetic spectrum is used for sterilizing medical equipment and treating cancer?", options: ["Microwaves", "Infrared", "Ultraviolet", "Gamma rays"], answer: "Gamma rays", explanation: "Gamma rays have high energy for sterilization and cancer treatment." },
+                    { question: "Which of the following electromagnetic waves has the longest wavelength?", options: ["X-rays", "Ultraviolet", "Microwaves", "Gamma rays"], answer: "Microwaves", explanation: "Order of increasing wavelength: Gamma, X-ray, UV, Visible, IR, Microwaves, Radio." },
+                    { question: "Which region of the electromagnetic spectrum is used in remote controls for televisions?", options: ["Radio waves", "Infrared radiation", "Visible light", "Ultraviolet light"], answer: "Infrared radiation", explanation: "TV remotes typically use infrared." },
+                    { question: "All electromagnetic waves travel at the same speed in a vacuum. What is this speed?", options: ["3.0×10⁸ m/s", "3.0×10⁶ m/s", "3.0×10⁵ m/s", "3.0×10³ m/s"], answer: "3.0×10⁸ m/s", explanation: "Speed of light in vacuum (c)." },
+                    { question: "Which of the following is a common application of radio waves?", options: ["Medical imaging (bone fractures)", "Heating food in an oven", "Broadcasting television and radio signals", "Sterilizing surgical equipment"], answer: "Broadcasting television and radio signals", explanation: "Radio waves are used for broadcasting." }
+                ]
+            },
+            unit3_3_theory: {
+                title: "Unit 3.3 Theory: Electromagnetic spectrum",
+                type: "theory",
+                questions: [
+                    { question: "(a) List the seven main regions of the electromagnetic spectrum in order of increasing wavelength. (b) For each of the following electromagnetic waves, state one practical use: (i) Microwaves (ii) Infrared radiation (iii) X-rays", keywords: ["gamma", "x-ray", "ultraviolet", "visible", "infrared", "microwaves", "radio", "satellite communication", "cooking", "remote controls", "thermal imaging", "medical imaging", "security"], answer_guideline: "(a) Gamma, X-ray, UV, Visible, IR, Microwaves, Radio. (b)(i) Microwaves: cooking, satellite comms. (ii) IR: remote controls, thermal imaging. (iii) X-rays: medical imaging, security." },
+                    { question: "Describe the common properties shared by all electromagnetic waves.", keywords: ["transverse", "travel through vacuum", "speed of light in vacuum", "transfer energy", "wave equation"], answer_guideline: "All are transverse, travel through vacuum at speed of light (3x10⁸ m/s), transfer energy, obey v=fλ." },
+                    { question: "Explain how X-rays are used in medical imaging and why they are suitable for this purpose.", keywords: ["x-rays", "medical imaging", "penetrate soft tissue", "absorbed by dense material", "bones", "contrast"], answer_guideline: "X-rays pass through soft tissues but are absorbed by denser materials like bones, creating a shadow image (contrast) on a detector." },
+                    { question: "Compare and contrast visible light and ultraviolet radiation in terms of their properties and uses.", keywords: ["visible light", "ultraviolet", "EM waves", "transverse", "speed of light", "UV shorter wavelength", "UV higher frequency", "UV higher energy", "visible detected by eye", "UV not detected", "uses visible seeing", "uses UV sterilization sunbeds"], answer_guideline: "Similar: EM waves, transverse, travel at c in vacuum. Different: UV has shorter wavelength, higher frequency/energy. Uses: Visible for sight; UV for sterilization, sunbeds." },
+                    { question: "Explain the dangers associated with exposure to high-energy electromagnetic radiation, such as gamma rays and X-rays.", keywords: ["high-energy EM radiation", "ionizing radiation", "damage cells", "DNA damage", "mutations", "cancer", "radiation sickness"], answer_guideline: "Gamma and X-rays are ionizing. They can damage DNA and cells, leading to mutations, cancer, or cell death." }
+                ]
+            },
+            // Unit 3.4
+            unit3_4_mcq: {
+                title: "Unit 3.4 MCQ: Sound",
+                type: "mcq",
+                questions: [
+                    { question: "Which of the following frequency ranges is completely audible by a human who has average hearing?", options: ["200 Hz to 200 kHz", "5 Hz to 50 kHz", "50 Hz to 5 kHz", "50 kHz to 50 MHz"], answer: "50 Hz to 5 kHz", explanation: "Human hearing is approx 20 Hz to 20 kHz. 50Hz-5kHz (5000Hz) is within this." },
+                    { question: "Sound waves are best described as:", options: ["Transverse waves that can travel through a vacuum.", "Longitudinal waves that require a medium to travel.", "Transverse waves that require a medium to travel.", "Longitudinal waves that can travel through a vacuum."], answer: "Longitudinal waves that require a medium to travel.", explanation: "Sound waves are longitudinal and need a medium." },
+                    { question: "The speed of sound in air is approximately 330 m/s. If an echo is heard 2 seconds after a sound is produced, what is the distance to the reflecting surface?", options: ["165 m", "330 m", "660 m", "1320 m"], answer: "330 m", explanation: "Distance = (speed * time) / 2 = (330 * 2) / 2 = 330 m." },
+                    { question: "Which property of a sound wave is related to its loudness?", options: ["Frequency", "Wavelength", "Amplitude", "Speed"], answer: "Amplitude", explanation: "Loudness is related to amplitude." },
+                    { question: "Ultrasound is widely used in medical scanning because:", options: ["It has a very low frequency and is harmless.", "It has a very high frequency and can penetrate soft tissues without causing harm.", "It is a type of electromagnetic wave.", "It can be heard by humans."], answer: "It has a very high frequency and can penetrate soft tissues without causing harm.", explanation: "Ultrasound is high frequency sound, non-ionizing, used for imaging." }
+                ]
+            },
+            unit3_4_theory: {
+                title: "Unit 3.4 Theory: Sound",
+                type: "theory",
+                questions: [
+                    { question: "(a) Explain the meaning of the term 'ultrasound'. (b) Give two applications of ultrasound in daily life or technology, apart from medical scanning. (c) Explain why ultrasound cannot be heard by the human ear.", keywords: ["ultrasound", "frequency above human hearing", ">20kHz", "sonar", "industrial cleaning", "animal echolocation", "human ear range"], answer_guideline: "(a) Sound waves with frequency > 20,000 Hz (above human hearing). (b) Sonar, industrial cleaning/testing. (c) Human ear only detects frequencies in range ~20Hz-20kHz." },
+                    { question: "(a) Describe the nature of sound waves (i.e., whether they are transverse or longitudinal, and if they require a medium). (b) Using the kinetic particle model of matter, explain how sound travels through a solid. (c) Why does sound not travel through a vacuum?", keywords: ["longitudinal", "require medium", "particle vibrations", "collisions", "compressions rarefactions", "vacuum no particles"], answer_guideline: "(a) Longitudinal, require a medium. (b) Vibrations passed from particle to particle via collisions in a solid. (c) No particles in a vacuum to vibrate and transmit sound." },
+                    { question: "(a) A student claps their hands in front of a tall building and hears an echo after 0.8 seconds. If the speed of sound in air is 340 m/s, calculate the distance between the student and the building. (b) Suggest two factors that can affect the speed of sound in air.", keywords: ["echo", "distance = (speed*time)/2", "136m", "temperature", "humidity", "medium density"], answer_guideline: "(a) d = (v*t)/2 = (340m/s * 0.8s)/2 = 136m. (b) Temperature of air, humidity of air." },
+                    { question: "(a) Explain how the pitch of a sound is related to the properties of a sound wave. (b) Explain how the loudness of a sound is related to the properties of a sound wave. (c) Two different sounds, P and Q, are represented on a computer screen on the same scale (imagine P: small amplitude, long wavelength; Q: large amplitude, short wavelength). State and explain how sound P is different from sound Q in terms of loudness and pitch.", keywords: ["pitch", "frequency", "loudness", "amplitude", "Q louder", "Q higher pitch"], answer_guideline: "(a) Pitch related to frequency (high f = high pitch). (b) Loudness related to amplitude (large A = loud). (c) Q is louder (larger amplitude) and has higher pitch (shorter wavelength/higher frequency) than P." },
+                    { question: "(a) Describe a method to measure the speed of sound in air using two microphones and a timer. You may include a diagram in your answer. (b) State the formula used to calculate the speed of sound from the measurements obtained in the experiment described in part (a).", keywords: ["two microphones", "known distance", "timer", "sound source", "time interval", "speed=distance/time"], answer_guideline: "(a) Place two mics a known distance (d) apart. Connect to timer. Make sharp sound near first mic. Timer starts when sound reaches first mic, stops when it reaches second. Measure time (t). (b) v = d/t." }
+                ]
+            },
+            // Unit 6.1
+            unit6_1_mcq: {
+                title: "Unit 6.1 MCQ: Earth and the Solar System",
+                type: "mcq",
+                questions: [
+                    { question: "Which of the following statements correctly describes the Earth's rotation and its effect?", options: ["The Earth orbits the Sun once every 24 hours, causing seasons.", "The Earth rotates on its axis once every 365 days, causing day and night.", "The Earth rotates on its axis once every 24 hours, causing day and night.", "The Earth orbits the Sun once every 24 hours, causing day and night."], answer: "The Earth rotates on its axis once every 24 hours, causing day and night.", explanation: "Earth's rotation (24h) causes day/night. Orbit (365 days) + tilt causes seasons." },
+                    { question: "Which of the following planets is classified as an \"Inner (Terrestrial) Planet\"?", options: ["Jupiter", "Saturn", "Uranus", "Mars"], answer: "Mars", explanation: "Inner/Terrestrial: Mercury, Venus, Earth, Mars. Outer/Gas Giants: Jupiter, Saturn, Uranus, Neptune." },
+                    { question: "What causes the different phases of the Moon as seen from Earth?", options: ["The Earth's shadow falling on the Moon.", "The Moon's rotation on its axis.", "The changing amount of the Moon's illuminated surface visible from Earth as it orbits the Earth.", "The Sun's position relative to the Earth."], answer: "The changing amount of the Moon's illuminated surface visible from Earth as it orbits the Earth.", explanation: "Phases are due to changing viewing angle of sunlit portion of Moon as it orbits Earth." },
+                    { question: "Which planet is commonly known as the \"Red Planet\" due to its distinctive reddish-orange appearance?", options: ["Venus", "Mars", "Jupiter", "Saturn"], answer: "Mars", explanation: "Mars is red due to iron oxide (rust) on its surface." },
+                    { question: "What is the primary force responsible for keeping planets in orbit around the Sun?", options: ["Electromagnetic force", "Nuclear force", "Gravitational force", "Tidal force"], answer: "Gravitational force", explanation: "Gravity provides the centripetal force for orbits." }
+                ]
+            },
+            unit6_1_theory: {
+                title: "Unit 6.1 Theory: Earth and the Solar System",
+                type: "theory",
+                questions: [
+                    { question: "(a) Explain why the Moon appears to have different phases when viewed from Earth. (b) Describe the difference between a solar eclipse and a lunar eclipse.", keywords: ["moon phases", "reflects sunlight", "changing illuminated portion visible", "solar eclipse", "moon between sun earth", "lunar eclipse", "earth between sun moon"], answer_guideline: "(a) Moon reflects sunlight. As it orbits Earth, we see different amounts of its sunlit side. (b) Solar: Moon blocks Sun's light to Earth (S-M-E). Lunar: Earth blocks Sun's light to Moon (S-E-M)." },
+                    { question: "(a) List the eight planets in our Solar System in order of increasing distance from the Sun. (b) Briefly describe two key differences between the inner (terrestrial) planets and the outer (gas/ice giant) planets.", keywords: ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "inner rocky small dense", "outer gaseous large low-density many moons rings"], answer_guideline: "(a) Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune. (b) Inner: smaller, rocky, denser, fewer moons. Outer: larger, gaseous/icy, less dense, many moons/rings." },
+                    { question: "Explain how the tilt of Earth's axis and its orbit around the Sun combine to cause the seasons.", keywords: ["earth's tilt", "23.5 degrees", "orbit around sun", "direct sunlight", "hemisphere tilted towards sun summer", "tilted away winter"], answer_guideline: "Earth's axis is tilted. As Earth orbits Sun, different hemispheres tilt towards Sun, receiving more direct sunlight (summer) or away (winter)." },
+                    { question: "Describe the main components of the Solar System, apart from the Sun and the eight planets.", keywords: ["dwarf planets", "asteroids", "comets", "moons", "meteoroids"], answer_guideline: "Dwarf planets (e.g., Pluto), asteroids (mostly between Mars & Jupiter), comets (ice & dust, elliptical orbits), moons (orbit planets), meteoroids." },
+                    { question: "Explain the role of gravity in maintaining the Earth's orbit around the Sun and the Moon's orbit around the Earth.", keywords: ["gravity", "centripetal force", "earth orbits sun", "moon orbits earth", "prevents flying off"], answer_guideline: "Gravity provides the centripetal force that keeps Earth orbiting Sun, and Moon orbiting Earth, preventing them from moving in a straight line into space." }
+                ]
+            },
+            // Unit 6.2
+            unit6_2_mcq: {
+                title: "Unit 6.2 MCQ: Stars and the Universe",
+                type: "mcq",
+                questions: [
+                    { question: "Which two elements are the most commonly found in the Sun?", options: ["Hydrogen and oxygen", "Helium and carbon", "Hydrogen and helium", "Nitrogen and oxygen"], answer: "Hydrogen and helium", explanation: "Sun is mostly hydrogen and helium, fuel for fusion." },
+                    { question: "Light from distant galaxies is redshifted when measured on Earth. Which of the following ideas does this provide evidence for?", options: ["The Big Bang Theory", "The Universe is contracting", "Distant galaxies are moving towards us", "The Universe is static"], answer: "The Big Bang Theory", explanation: "Redshift indicates galaxies are moving away, supporting an expanding Universe (Big Bang)." },
+                    { question: "Which of the following describes the correct order of stages in the life cycle of a star similar in mass to the Sun?", options: ["Red giant → White dwarf → Main sequence → Planetary nebula", "Main sequence → Red giant → Planetary nebula → White dwarf", "Main sequence → Red supergiant → Supernova → Neutron star", "White dwarf → Planetary nebula → Red giant → Main sequence"], answer: "Main sequence → Red giant → Planetary nebula → White dwarf", explanation: "Life cycle of a Sun-like star." },
+                    { question: "The expanding Universe theory suggests that:", options: ["All galaxies are moving closer to each other.", "Only galaxies within our Local Group are moving apart.", "The space between galaxies is expanding.", "The galaxies themselves are expanding in size."], answer: "The space between galaxies is expanding.", explanation: "Expansion refers to space itself expanding, carrying galaxies apart." },
+                    { question: "What is the main process by which stars generate energy?", options: ["Chemical reactions", "Nuclear fission", "Gravitational collapse", "Nuclear fusion"], answer: "Nuclear fusion", explanation: "Stars generate energy via nuclear fusion (e.g., H to He)." }
+                ]
+            },
+            unit6_2_theory: {
+                title: "Unit 6.2 Theory: Stars and the Universe",
+                type: "theory",
+                questions: [
+                    { question: "(a) Explain the term 'galactic redshift'. (b) Explain why galactic redshift is considered as evidence supporting the Big Bang theory. (c) Describe one other piece of evidence that supports the Big Bang theory.", keywords: ["galactic redshift", "wavelength stretched", "moving away", "Doppler effect", "expanding universe", "Big Bang", "Cosmic Microwave Background", "CMB"], answer_guideline: "(a) Light from distant galaxies shifted to longer (redder) wavelengths, indicating they are moving away. (b) Shows universe is expanding, a key part of Big Bang. (c) Cosmic Microwave Background (CMB) radiation: faint afterglow of Big Bang." },
+                    { question: "(a) Describe the formation of a star from a cloud of gas and dust. (b) Explain what happens to a star similar in mass to the Sun after it has exhausted its hydrogen fuel in the core. Describe the stages it goes through until it becomes a white dwarf.", keywords: ["nebula", "gravity", "protostar", "nuclear fusion", "main sequence", "red giant", "planetary nebula", "white dwarf"], answer_guideline: "(a) Nebula (gas/dust cloud) collapses under gravity, forms protostar. Core heats up, fusion starts -> main sequence star. (b) Sun-like star: Main sequence -> Red Giant (H fuel runs out, expands) -> Planetary Nebula (outer layers drift off) -> White Dwarf (core remnant cools)." },
+                    { question: "(a) State the main composition of the Sun. (b) Explain how the Sun produces energy. (c) Describe the Sun's expected life cycle from its current state to its eventual demise.", keywords: ["hydrogen", "helium", "nuclear fusion", "E=mc²", "main sequence", "red giant", "planetary nebula", "white dwarf"], answer_guideline: "(a) Mostly hydrogen and helium. (b) Nuclear fusion in core: hydrogen fuses to helium, releasing energy (E=mc²). (c) Main sequence -> Red Giant -> Planetary Nebula -> White Dwarf." },
+                    { question: "(a) Define a light-year. (b) Explain why astronomers use light-years to measure distances in space instead of kilometres. (c) The Andromeda galaxy is approximately 2.5 million light-years away from Earth. Explain what this statement means.", keywords: ["light-year", "distance light travels in one year", "vast distances", "manageable numbers", "light travel time", "seeing the past"], answer_guideline: "(a) Distance light travels in vacuum in one year. (b) Space distances are vast; km would be unwieldy numbers. (c) Light from Andromeda took 2.5 million years to reach us; we see it as it was 2.5 million years ago." },
+                    { question: "(a) Describe the main characteristics of a main sequence star. (b) Explain how the mass of a star determines its ultimate fate (e.g., neutron star, black hole). (c) What is a supernova, and why is it important in the formation of new stars and planets?", keywords: ["main sequence", "hydrogen fusion", "stable", "hydrostatic equilibrium", "star mass", "low mass white dwarf", "high mass supernova", "neutron star", "black hole", "supernova", "massive star explosion", "distributes heavy elements", "triggers star formation"], answer_guideline: "(a) Stable, fuses H to He in core, hydrostatic equilibrium. (b) Low/medium mass -> white dwarf. High mass -> supernova -> neutron star or black hole. (c) Supernova: massive star explosion. Important for dispersing heavy elements and can trigger new star formation." }
+                ]
+            }
+        };
+
+        let currentTestId = null;
+        const modal = document.getElementById('testModal');
+        const testTitleEl = document.getElementById('testTitle');
+        const questionsContainer = document.getElementById('testQuestionsContainer');
+        const resultsContainer = document.getElementById('testResultsContainer');
+        const submitButton = document.getElementById('submitTestButton');
+
+
+        function startTest(testId) {
+            currentTestId = testId;
+            const testData = tests[testId];
+            if (!testData) {
+                // Fallback for tests not yet fully implemented from doc
+                const placeholderTestId = testId.replace(/_\d+$/, '_1'); // e.g. unit2_2_mcq -> unit2_1_mcq
+                const placeholderData = tests[placeholderTestId];
+                if (placeholderData) {
+                     alert(`Test for ${testId} is not fully implemented yet. Showing a sample from ${placeholderTestId}.`);
+                     currentTestId = placeholderTestId; // Use placeholder ID for loading
+                     startTest(currentTestId); // Recursive call with placeholder
+                     return;
+                } else {
+                    alert("Test not found and no placeholder available!");
+                    return;
+                }
+            }
+
+            testTitleEl.textContent = testData.title;
+            questionsContainer.innerHTML = ''; // Clear previous questions
+            resultsContainer.innerHTML = ''; // Clear previous results
+            submitButton.style.display = 'block'; // Show submit button
+
+            testData.questions.forEach((q, index) => {
+                const qDiv = document.createElement('div');
+                qDiv.classList.add('question-container');
+                qDiv.innerHTML = `<p><b>Q${index + 1}:</b> ${q.question}</p>`;
+
+                if (testData.type === "mcq") {
+                    const optionsDiv = document.createElement('div');
+                    optionsDiv.classList.add('options');
+                    q.options.forEach(opt => {
+                        // Sanitize option value for HTML attribute
+                        const sanitizedOpt = opt.replace(/"/g, "&quot;");
+                        optionsDiv.innerHTML += `
+                            <label>
+                                <input type="radio" name="q${index}" value="${sanitizedOpt}">
+                                ${opt}
+                            </label>
+                        `;
+                    });
+                    qDiv.appendChild(optionsDiv);
+                } else if (testData.type === "theory") {
+                    qDiv.innerHTML += `<textarea id="q${index}_answer" class="theory-answer" rows="4" placeholder="Type your answer here..."></textarea>`;
+                }
+                questionsContainer.appendChild(qDiv);
+            });
+            modal.style.display = "block";
+            // Ensure MathJax typesets new content in the modal
+            if (window.MathJax) {
+                window.MathJax.typesetPromise([questionsContainer]);
+            }
+        }
+
+        function closeTestModal() {
+            modal.style.display = "none";
+            currentTestId = null;
+        }
+
+        function submitTest() {
+            if (!currentTestId) return;
+            const testData = tests[currentTestId];
+            if (!testData) { // Should not happen if currentTestId is set
+                console.error("Test data not found for ID:", currentTestId);
+                return;
+            }
+            resultsContainer.innerHTML = '<h3>Results:</h3>';
+            let score = 0;
+
+            testData.questions.forEach((q, index) => {
+                const resultDiv = document.createElement('div');
+                resultDiv.classList.add('result');
+                let userAnswerText = "Not answered"; // Default for display
+                let isCorrect = false;
+
+                if (testData.type === "mcq") {
+                    const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+                    if (selectedOption) {
+                        userAnswerText = selectedOption.value;
+                        isCorrect = userAnswerText === q.answer;
+                        if (isCorrect) score++;
+                    }
+                    resultDiv.innerHTML = `
+                        <p><b>Q${index + 1}:</b> ${q.question}</p>
+                        <p>Your answer: ${userAnswerText}</p>
+                        <p>Correct answer: ${q.answer}</p>
+                        ${q.explanation ? `<p class="explanation">Explanation: ${q.explanation}</p>` : ''}
+                    `;
+                } else if (testData.type === "theory") {
+                    const userAnswerEl = document.getElementById(`q${index}_answer`);
+                    userAnswerText = userAnswerEl.value;
+                    const userAnswerLower = userAnswerText.toLowerCase();
+                    let matchedKeywords = 0;
+                    if (q.keywords && q.keywords.length > 0) {
+                        q.keywords.forEach(keyword => {
+                            if (userAnswerLower.includes(keyword.toLowerCase())) {
+                                matchedKeywords++;
+                            }
+                        });
+                        isCorrect = matchedKeywords >= Math.ceil(q.keywords.length / 2);
+                        if (isCorrect) score++; // Optional: score theory based on keywords
+                    } else {
+                        isCorrect = false; // No keywords to check against
+                    }
+                    resultDiv.innerHTML = `
+                        <p><b>Q${index + 1}:</b> ${q.question}</p>
+                        <p>Your answer: ${userAnswerText || "No answer"}</p>
+                        ${q.keywords && q.keywords.length > 0 ? `<p class="keywords">Keywords looked for: ${q.keywords.join(", ")}</p>` : ''}
+                        <p class="explanation">Guideline: ${q.answer_guideline || "No guideline provided."}</p>
+                    `;
+                }
+
+                resultDiv.classList.add(isCorrect ? 'correct' : 'incorrect');
+                resultsContainer.appendChild(resultDiv);
+            });
+
+            if (testData.type === "mcq") {
+                 resultsContainer.insertAdjacentHTML('afterbegin', `<p class="text-lg font-semibold mb-2">Your MCQ score: ${score}/${testData.questions.length}</p>`);
+            } else {
+                 resultsContainer.insertAdjacentHTML('afterbegin', `<p class="text-lg font-semibold mb-2">Theory questions are evaluated based on keyword presence. Please review the guidelines carefully.</p>`);
+            }
+            submitButton.style.display = 'none'; // Hide submit button after submission
+             // Ensure MathJax typesets new content in the results
+            if (window.MathJax) {
+                window.MathJax.typesetPromise([resultsContainer]);
+            }
+        }
+
+        // Close modal if user clicks outside of it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeTestModal();
+            }
+        }
+    </script>
+</body>
+</html>
